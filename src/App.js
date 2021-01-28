@@ -1,15 +1,26 @@
 import React from 'react';
 import Home from './components/HomeComponent.js';
-import { BrowserRouter } from 'react-router-dom';
+import Customer from './components/CustomerComponent.js'
+import { BrowserRouter, Route,Switch } from 'react-router-dom';
 import './App.css';
 
 function App() {
   return (
     <BrowserRouter>
-          <div className="App">
+         {/*  <div className="App">
+            <Home /> 
+          </div> */}
+          <Switch>
+          <Route path="/profile">
+            <Customer />
+          </Route>
+        
+          <Route path="/">
             <Home />
-          </div>
+          </Route>
+        </Switch>
     </BrowserRouter>
+      
   );
 }
 
