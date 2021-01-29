@@ -4,14 +4,11 @@ import Footer from './FooterComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 
-
-
 class Customer extends Component {
     render() {
         return (
             
             <div>
-                
                 <Header />
                 <div className="mt-10">
                     <br></br>
@@ -51,18 +48,18 @@ class Customer extends Component {
                                     <div class="row">
                                         <div class="col-6">
                                             <label for="Name" class="form-label">First Name</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1"></input>
+                                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="First name"></input>
  
                                         </div>
                                         <div class="col-6">
                                             <label for="Name" class="form-label">Last Name</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1"></input>
+                                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Last name"></input>
                                         </div>
                                     </div>
 
                                     <div class="mb-3">
                                             <label for="Name" class="form-label">City</label>
-                                            <input type="password" class="form-control" ></input>
+                                            <input type="text" class="form-control" ></input>
                                     </div>
                                     <div class="mb-3">
                                     <fieldset class="form-group">
