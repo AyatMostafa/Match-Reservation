@@ -4,6 +4,7 @@ import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, 
 import { Route,NavLink } from 'react-router-dom';
 import CustomerComponent from './CustomerComponent';
 
+const serverURL = "http://localhost:5000";
 
 class Header extends Component {
     
@@ -12,11 +13,14 @@ class Header extends Component {
     
         this.state = {
             isNavOpen: false,
-            isModalOpen: false
+            isLoginOpen: false,
+            isSignUpOpen: false
         };
         this.toggleNav = this.toggleNav.bind(this);
-        this.toggleModal = this.toggleModal.bind(this);
+        this.toggleLogin = this.toggleLogin.bind(this);
+        this.toggleSignUp = this.toggleSignUp.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleSignUp = this.handleSignUp.bind(this);
     }
 
     toggleNav() {
@@ -24,13 +28,22 @@ class Header extends Component {
             isNavOpen: !this.state.isNavOpen
     });
     }
-    toggleModal() {
+    toggleLogin() {
         this.setState({
-            isModalOpen: !this.state.isModalOpen
+            isLoginOpen: !this.state.isLoginOpen
+        });
+    }
+    toggleSignUp(){
+        this.setState({
+            isSignUpOpen: !this.state.isSignUpOpen
         });
     }
 
     handleLogin(event) {
+        
+    }
+    handleSignUp(event){
+
     }
 
     render() {
@@ -61,12 +74,12 @@ class Header extends Component {
                             </Nav>
                             <Nav navbar>
                                 <NavItem>
-                                    <Button outline className="btn btn-light" onClick={this.toggleModal}><span className="fa fa-sign-in fa-lg"></span> Login</Button>
+                                    <Button outline className="btn btn-light" onClick={this.toggleLogin}><span className="fa fa-sign-in fa-lg"></span> Login</Button>
                                 </NavItem>
                             </Nav>
                             <Nav className="ml-4" navbar>
                                 <NavItem>
-                                    <Button outline className="btn btn-light" onClick={this.toggleModal}><span className="fa fa-sign-in fa-lg"></span> Sign UP</Button>
+                                    <Button outline className="btn btn-light" onClick={this.toggleSignUp}><span className="fa fa-sign-in fa-lg"></span> Sign UP</Button>
                                 </NavItem>
                             </Nav>
                         </Collapse>
@@ -82,31 +95,45 @@ class Header extends Component {
                         </div>
                     </div>
                 </Jumbotron>
-                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-                    <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
+
+                <Modal isOpen={this.state.isLoginOpen} toggle={this.toggleLogin}>
+                    <ModalHeader toggle={this.toggleLogin}>Login</ModalHeader>
                     <ModalBody>
-                        <Form onSubmit={this.handleLogin}>
+                        <Form onSubmit={this.handleLogin} action={serverURL+"/Login"} method="GET">
                             <FormGroup>
                                 <Label htmlFor="username">Username</Label>
-                                <Input type="text" id="username" name="username"
+                                <Input type="text" name="username"
                                     innerRef={(input) => this.username = input} />
                             </FormGroup>
                             <FormGroup>
                                 <Label htmlFor="password">Password</Label>
-                                <Input type="password" id="password" name="password"
+                                <Input type="password" name="password"
                                     innerRef={(input) => this.password = input}  />
-                            </FormGroup>
-                            <FormGroup check>
-                                <Label check>
-                                    <Input type="checkbox" name="remember"
-                                    innerRef={(input) => this.remember = input}  />
-                                    Remember me
-                                </Label>
                             </FormGroup>
                             <Button type="submit" value="submit" color="primary">Login</Button>
                         </Form>
                     </ModalBody>
                 </Modal>
+
+                <Modal isOpen={this.state.isSignUpOpen} toggle={this.toggleSignUp}>
+                    <ModalHeader toggle={this.toggleSignUp}>Sign Up</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={this.handleSignUp} action={serverURL+"/SignUp"} method="POST">
+                            <FormGroup>
+                                <Label htmlFor="username">Username</Label>
+                                <Input type="text" name="username"
+                                    innerRef={(input) => this.username = input} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="password">Password</Label>
+                                <Input type="password" name="password"
+                                    innerRef={(input) => this.password = input}  />
+                            </FormGroup>
+                            <Button type="submit" value="submit" color="primary">Sign Up</Button>
+                        </Form>
+                    </ModalBody>
+                </Modal>
+
             </React.Fragment>
         );
     }
