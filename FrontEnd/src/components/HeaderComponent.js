@@ -1,7 +1,9 @@
-import React, { Component} from 'react';
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, Button, Modal, ModalHeader, ModalBody,
-    Form, FormGroup, Input, Label } from 'reactstrap';
+import React, { Component, useState} from 'react';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Route,NavLink } from 'react-router-dom';
+
+import Login from './Login'
+import SignUp from './SignUp'
 import CustomerComponent from './CustomerComponent';
 
 const serverURL = "http://localhost:5000";
@@ -14,13 +16,29 @@ class Header extends Component {
         this.state = {
             isNavOpen: false,
             isLoginOpen: false,
-            isSignUpOpen: false
+            isSignUpOpen: false,
+            token: this.getToken()
         };
+
+        this.setToken = this.setToken.bind(this);
+        this.getToken = this.getToken.bind(this);
+        this.destroyToken = this.destroyToken.bind(this);
         this.toggleNav = this.toggleNav.bind(this);
         this.toggleLogin = this.toggleLogin.bind(this);
         this.toggleSignUp = this.toggleSignUp.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
-        this.handleSignUp = this.handleSignUp.bind(this);
+    }
+    setToken(t){
+        this.setState({token: t});
+        sessionStorage.setItem('token', JSON.stringify(t));
+    }
+    getToken(){
+        const tokenString = sessionStorage.getItem('token');
+        const userToken = JSON.parse(tokenString);
+        return userToken ? userToken : '';
+    }
+    destroyToken(){
+        delete sessionStorage.removeItem('token');
+        this.setState({token: this.getToken()});
     }
 
     toggleNav() {
@@ -38,14 +56,6 @@ class Header extends Component {
             isSignUpOpen: !this.state.isSignUpOpen
         });
     }
-
-    handleLogin(event) {
-        
-    }
-    handleSignUp(event){
-
-    }
-
     render() {
         return(
             <React.Fragment>
@@ -73,14 +83,28 @@ class Header extends Component {
                                 </NavItem>
                             </Nav>
                             <Nav navbar>
-                                <NavItem>
-                                    <Button outline className="btn btn-light" onClick={this.toggleLogin}><span className="fa fa-sign-in fa-lg"></span> Login</Button>
-                                </NavItem>
+                                {   !this.state.token ? 
+                                    <NavItem>
+                                        <Button outline className="btn btn-light" onClick={this.toggleLogin}><span className="fa fa-sign-in fa-lg"></span> Login</Button>
+                                    </NavItem>
+                                    : null
+                                }
                             </Nav>
                             <Nav className="ml-4" navbar>
-                                <NavItem>
-                                    <Button outline className="btn btn-light" onClick={this.toggleSignUp}><span className="fa fa-sign-in fa-lg"></span> Sign UP</Button>
-                                </NavItem>
+                                {   !this.state.token ? 
+                                    <NavItem>
+                                        <Button outline className="btn btn-light" onClick={this.toggleSignUp}><span className="fa fa-sign-in fa-lg"></span> Sign UP</Button>
+                                    </NavItem>
+                                    : null  //this null would be updated
+                                }
+                            </Nav>
+                            <Nav className="ml-4" navbar>
+                                {   this.state.token ? 
+                                    <NavItem>
+                                        <Button outline className="btn btn-light" onClick={this.destroyToken}><span className="fa fa-sign-in fa-lg"></span> Logout</Button>
+                                    </NavItem>
+                                    : null  //this null would be updated
+                                }
                             </Nav>
                         </Collapse>
                     {/* </div> */}
@@ -99,38 +123,14 @@ class Header extends Component {
                 <Modal isOpen={this.state.isLoginOpen} toggle={this.toggleLogin}>
                     <ModalHeader toggle={this.toggleLogin}>Login</ModalHeader>
                     <ModalBody>
-                        <Form onSubmit={this.handleLogin} action={serverURL+"/Login"} method="GET">
-                            <FormGroup>
-                                <Label htmlFor="username">Username</Label>
-                                <Input type="text" name="username"
-                                    innerRef={(input) => this.username = input} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="password">Password</Label>
-                                <Input type="password" name="password"
-                                    innerRef={(input) => this.password = input}  />
-                            </FormGroup>
-                            <Button type="submit" value="submit" color="primary">Login</Button>
-                        </Form>
+                        <Login setToken={this.setToken} setShow={this.toggleLogin}/>
                     </ModalBody>
                 </Modal>
 
                 <Modal isOpen={this.state.isSignUpOpen} toggle={this.toggleSignUp}>
                     <ModalHeader toggle={this.toggleSignUp}>Sign Up</ModalHeader>
                     <ModalBody>
-                        <Form onSubmit={this.handleSignUp} action={serverURL+"/SignUp"} method="POST">
-                            <FormGroup>
-                                <Label htmlFor="username">Username</Label>
-                                <Input type="text" name="username"
-                                    innerRef={(input) => this.username = input} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="password">Password</Label>
-                                <Input type="password" name="password"
-                                    innerRef={(input) => this.password = input}  />
-                            </FormGroup>
-                            <Button type="submit" value="submit" color="primary">Sign Up</Button>
-                        </Form>
+                        <SignUp setToken={this.setToken} setShow={this.toggleSignUp} />
                     </ModalBody>
                 </Modal>
 

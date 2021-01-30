@@ -10,6 +10,10 @@
   min-height:400px;
 }
 
+.fieldError{
+  color: 'red';
+}
+
 .footer{
   background-color: #f2f0f7;
   margin:0px auto;
@@ -126,7 +130,6 @@ pa-menu-item.selected {
 }
 #customer_content{
   margin-top: 3%;
- 
 }
 
 #customer-form{

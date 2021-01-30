@@ -100,7 +100,8 @@ class Customer extends Component {
                     </div>
                     
                 </div>
-          <Footer/>
+                
+                <Footer/>
             </div>
         );
     }
