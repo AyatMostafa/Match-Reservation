@@ -37,10 +37,10 @@ export class Login extends React.Component {
         password: this.state.password
     })
     .then(response => {
-      if(response.data === "Success")
+      if(response.data.substr(0,7) === "Success")
       {
         this.props.setShow();
-        this.props.setToken('tokentest');
+        this.props.setToken(this.state.username + '-' + response.data.charAt(response.data.length-1));
       }
       else
       {
