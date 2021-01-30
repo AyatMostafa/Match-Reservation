@@ -9,7 +9,7 @@ class Customer extends Component {
         return (
             
             <div>
-                <Header />
+                <Header/>
                 <div className="mt-10">
                     <br></br>
                 </div>
@@ -100,8 +100,7 @@ class Customer extends Component {
                     </div>
                     
                 </div>
-                
-                {/* <Footer /> */}
+          <Footer/>
             </div>
         );
     }
