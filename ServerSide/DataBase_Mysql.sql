@@ -62,8 +62,10 @@ Create Table Stadiums(
 Create Table ReservedSeats(
     StadiumName varchar(50) not NULL,
     TicketNumber int not NULL,
+    seatNo int not NULL,
     ReservingUser varchar(50) not NULL,
     ReservationDate Date,
+    matchDate DateTime NOT Null,
     Primary Key(StadiumName, TicketNumber),
     Foreign Key(StadiumName) References Stadiums(StadiumName) On Delete Cascade,
     Foreign Key(ReservingUser) References users(UserName) On Delete Cascade
