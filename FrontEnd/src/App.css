@@ -10,11 +10,15 @@
   min-height: 400px;
 }
 
+.fieldError {
+  color: "red";
+}
+
 .footer {
   background-color: #f2f0f7;
   margin: 0px auto;
   padding: 20px 0px 20px 0px;
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -47,6 +51,7 @@ address {
 }
 .page-container {
   background: #f7f7f7;
+  padding-bottom: 5%;
   min-height: 500px;
   width: 100%;
   position: relative;
@@ -125,16 +130,6 @@ pa-menu-item.selected {
 }
 #customer_content {
   margin-top: 3%;
-}
-
-#customer-form {
-  margin-left: 3%;
-  margin-right: 3%;
-}
-
-#Reserve_Form {
-  margin-left: 3%;
-  margin-right: 3%;
 }
 
 .btn-style {
