@@ -1,22 +1,22 @@
-.row-header{
-  margin:0px auto;
-  padding:0px auto;
+.row-header {
+  margin: 0px auto;
+  padding: 0px auto;
 }
 
 .row-content {
-  margin:0px auto;
+  margin: 0px auto;
   padding: 50px 0px 50px 0px;
   border-bottom: 1px ridge;
-  min-height:400px;
+  min-height: 400px;
 }
 
-.fieldError{
-  color: 'red';
+.fieldError {
+  color: "red";
 }
 
-.footer{
+.footer {
   background-color: #f2f0f7;
-  margin:0px auto;
+  margin: 0px auto;
   padding: 20px 0px 20px 0px;
   position: relative;
   bottom: 0;
@@ -25,19 +25,19 @@
 }
 
 .jumbotron {
-  padding:70px 30px 70px 30px;
-  margin:0px auto;
-  background:#343a40 ;
-  color:floralwhite;
+  padding: 70px 30px 70px 30px;
+  margin: 0px auto;
+  background: #343a40;
+  color: floralwhite;
 }
 
 .navbar-dark {
-  background-color:#343a40;
+  background-color: #343a40;
 }
-address{
-  font-size:80%;
-  margin:0px;
-  color:#0f0f0f;
+address {
+  font-size: 80%;
+  margin: 0px;
+  color: #0f0f0f;
 }
 
 .od-pa-title {
@@ -60,7 +60,7 @@ address{
   position: relative;
   background: #fff;
   color: #666;
-  border-bottom: 1px solid rgba(0,0,0,.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   line-height: 1.2rem;
 }
 .od-pa-body {
@@ -79,12 +79,11 @@ address{
   align-items: stretch;
 }
 
-
-
 #sidebar.active {
   margin-left: -250px;
 }
-.odf-box, .odf-progress-metas {
+.odf-box,
+.odf-progress-metas {
   border-radius: 4px;
   box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
   background: #fff;
@@ -93,8 +92,8 @@ address{
   border-top: 4px solid #fc0;
   min-height: 50px;
 }
-#sidebar{
-  margin-left:3%;
+#sidebar {
+  margin-left: 3%;
 }
 .od-pa-menu-body .od-pa-menu-list .od-pa-menu-item:hover {
   background-color: #f5f5f5;
@@ -109,7 +108,8 @@ address{
   font-weight: 400;
   color: #333;
 }
-.odf-box, .odf-progress-metas {
+.odf-box,
+.odf-progress-metas {
   border-radius: 4px;
   box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
   background: #fff;
@@ -124,50 +124,62 @@ pa-menu-item.selected {
   vertical-align: middle;
   color: #ccc;
 }
-#icon{
-  color:#ccc;
-  margin-right:3%;
+#icon {
+  color: #ccc;
+  margin-right: 3%;
 }
-#customer_content{
+#customer_content {
   margin-top: 3%;
 }
 
-#customer-form{
-  margin-left:2%;
-  margin-right:2%;
+.btn-style {
+  margin-top: 2%;
+  margin-bottom: 1%;
 }
 
-/* .App {
+.dropDown {
+  margin-left: 20px;
+  position: absolute;
+  width: 200px;
+}
+.dropDown2 {
+  width: 200px;
+  margin-left: 50px;
+}
+
+.btn-drop {
+  width: 100px;
+  margin-left: 50px;
+}
+
+.text-submit {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin-right: 50%;
+  margin-left: 50%;
+}
+
+.gridCol {
+  border: 1px solid #ccc;
+  border-width: 2px 2px 2px 2px;
+  margin-left: 13px;
+  overflow: "hidden";
+}
+
+.rowGrid {
   text-align: center;
 }
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-.App-link {
-  color: #61dafb;
+
+.horizontal-scroll-wrapper {
+  width: 10000px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transform: rotate(-90) translateY(-100px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
+.form-label {
+}
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}

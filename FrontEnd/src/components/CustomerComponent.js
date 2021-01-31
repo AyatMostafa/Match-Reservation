@@ -33,10 +33,10 @@ class Customer extends Component {
 
                                   </div>
                                  <div class="od-pa-menu-item">
-                                    <a><span id="icon" className="fa fa-ticket fa-lg"></span>Reserve seats</a>
+                                    <a href="/reserve"><span id="icon" className="fa fa-ticket fa-lg"></span> Reserve seats</a>
                                  </div>
                                  <div class="od-pa-menu-item">
-                                    <a><span id="icon" className="fa fa-close fa-lg"></span>Cancel Reservation</a>
+                                    <a href="/cancel"><span id="icon" className="fa fa-close fa-lg"></span>Cancel Reservation</a>
                                  </div>
                               </div>
 

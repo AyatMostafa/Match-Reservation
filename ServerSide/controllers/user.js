@@ -6,7 +6,7 @@ const FrontEndURL = "http://localhost:3000"
 exports.Login = async function(req, res){
     const Data = req.body;
     const [results, metadata] = await db.sequelize.query(
-        "Select UserName,Pass From users Where UserName = ?",
+        "Select UserName,Pass,UserRole,Approved From users Where UserName = ?",
         {
             replacements: [Data.username],
             type: QueryTypes.SELECT
@@ -14,10 +14,12 @@ exports.Login = async function(req, res){
     console.log(results);
     if(typeof results !== 'undefined' && results)   //username existed
     {
-        console.log(results.Pass, Data.password);
         if(results.Pass === Data.password)
         {
-            res.send("Success");
+            if(results.Approved === 'Y')
+                res.send("Success-" + results.UserRole);
+            else 
+                res.send("This Account is not Approved yet.");
             return;
         }
         res.send("Incorrect Password");
