@@ -3,7 +3,7 @@ import Home from './components/HomeComponent.js';
 
 import UserList from './components/UserList';
 
-import Customer from './components/CustomerComponent.js'
+import Customer from './components/CustomerComponent'
 import ReserveSeat from './components/reserveSeat'
 import CancelReservation from './components/CancelReservation'
 import { BrowserRouter, Route,Switch } from 'react-router-dom';

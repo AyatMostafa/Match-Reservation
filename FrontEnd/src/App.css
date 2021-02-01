@@ -87,6 +87,9 @@ address {
   border-radius: 4px;
   box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
   background: #fff;
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-bottom: 1%;
 }
 .odf-box-primary {
   border-top: 4px solid #fc0;
@@ -183,3 +186,4 @@ pa-menu-item.selected {
   font-family: sans-serif;
   text-align: center;
 }
+

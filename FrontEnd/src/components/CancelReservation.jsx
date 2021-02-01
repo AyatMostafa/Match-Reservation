@@ -33,19 +33,27 @@ class CancelReservation extends Component {
                         <div class="col-2" id="sidebar">
                           <div class="pa_menu_body od-pa-menu-body odf-box odf-box-primary">
                               <div class="od-pa-menu-list">
+                              <a  href="/profile">
                                   <div class="od-pa-menu-item">
-                                    <a><span id="icon" className="fa fa-edit fa-lg"></span>Edit my info</a>
+                                    <span id="icon" className="fa fa-edit fa-lg"></span>Edit my info
                                   </div>
+                                  </a>
+                                <a  href="/matches">
                                   <div class="od-pa-menu-item">
-                                     <a><span id="icon" className="fa fa-list fa-lg"></span>View Matches</a>
+                                     <span id="icon" className="fa fa-list fa-lg"></span>View Matches
 
                                   </div>
+                                  </a>
+                                  <a href="/reserve">
                                  <div class="od-pa-menu-item">
-                                    <a href="/reserve"><span id="icon" className="fa fa-ticket fa-lg"></span> Reserve seats</a>
+                                    <span id="icon" className="fa fa-ticket fa-lg"></span> Reserve seats
                                  </div>
+                                 </a>
+                                 <a href="/cancel">
                                  <div class="od-pa-menu-item">
-                                    <a href="/cancel"><span id="icon" className="fa fa-close fa-lg"></span>Cancel Reservation</a>
+                                    <span id="icon" className="fa fa-close fa-lg"></span>Cancel Reservation
                                  </div>
+                                 </a>
                               </div>
 
                           </div>
