@@ -15,7 +15,6 @@ function App() {
   return (
 
     <BrowserRouter>
-        <UserList />
         <Switch>
           <Route path="/profile">
             <Customer />
