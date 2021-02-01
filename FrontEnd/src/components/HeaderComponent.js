@@ -1,10 +1,9 @@
 import React, { Component, useState} from 'react';
 import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
-import { Route,NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import Login from './Login'
 import SignUp from './SignUp'
-import CustomerComponent from './CustomerComponent';
 
 const serverURL = "http://localhost:5000";
 
