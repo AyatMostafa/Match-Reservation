@@ -6,14 +6,15 @@ import CancelReservation from './components/CancelReservation';
 import Matches from './components/MatchComponent.js';
 import Square from './components/Square';
 import EditMatch from './components/EditMatch.js';
+import UserList from './components/UserList';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import './App.css';
 
 const MatchWithId = ({match}) => 
 {
     return(
         <EditMatch matchID={match.params.matchId} />
-        // {this.props.matches.filter((matchh) => matchh.id === parseInt(match.params.matchId,10))[0]} />
     );
 }
 
@@ -26,12 +27,29 @@ function App() {
         <MatchWithId key={location.key} match={match} />
         )} />
 
-        
         <Route path="/matches">
           <Matches />
         </Route>
+
+        <Route path="/profile">
+          <Customer />
+        </Route>
         
-        
+        <Route path="/profile/admin/users">
+          <UserList />
+        </Route>
+
+        <Route path="/showSeats">
+          <Square />
+        </Route>
+
+        <Route path="/reserve">
+          <ReserveSeat />
+        </Route>
+
+        <Route path="/cancel">
+          <CancelReservation />
+        </Route>
 
         <Route path="/profile">
           <Customer />
