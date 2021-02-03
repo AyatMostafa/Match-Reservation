@@ -5,7 +5,7 @@ import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import Select from "react-select";
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import {withRouter } from 'react-router-dom';
 
 const serverURL = "http://localhost:5000";
 
