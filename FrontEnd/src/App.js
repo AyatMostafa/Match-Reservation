@@ -7,11 +7,11 @@ import Matches from './components/MatchComponent.js';
 import Square from './components/Square';
 import EditMatch from './components/EditMatch.js';
 import UserList from './components/UserList';
+import Stadium from './components/AddStadium';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
-import Square from './components/Square'
-import Stadium from './components/AddStadium'
+
 
 const MatchWithId = ({match}) => 
 {

@@ -47,6 +47,22 @@ exports.AddStadium = async function(req, res){
 
     const Data = req.body;
     console.log(req.body);
+    const [results, metadata] = await db.sequelize.query(
+        "select StadiumName from stadiums where StadiumName=?",
+        {
+            replacements: [
+                Data.params.StadiumName,
+                
+                           ],
+            type: QueryTypes.SELECT
+        }
+    );
+    if(typeof results !== 'undefined' && results) //already exist
+    {
+        res.send("Error");
+        return;
+    }
+    
     return db.sequelize.query(
         "insert into stadiums(StadiumName, Place, NumberOfRows, NumberOfColumns) Values(?, ?, ?, ?)",
         {

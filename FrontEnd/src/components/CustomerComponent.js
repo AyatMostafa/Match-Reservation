@@ -69,7 +69,6 @@ class Customer extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.setInputs = this.setInputs.bind(this);
-        this.addStadium = this.addStadium.bind(this);
       }
      
       async fetchCustomerInfo(){

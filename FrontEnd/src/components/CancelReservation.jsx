@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Header from './HeaderComponent';
 import Customer from './CustomerComponent'
-
+import Footer from './FooterComponent';
 class CancelReservation extends Component {
     state = {
            done:false,
