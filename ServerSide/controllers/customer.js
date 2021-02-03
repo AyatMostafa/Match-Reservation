@@ -42,3 +42,23 @@ exports.EditInfo = async function(req, res){
         res.send("Failed");
 }
 
+
+exports.AddStadium = async function(req, res){
+
+    const Data = req.body;
+    console.log(req.body);
+    return db.sequelize.query(
+        "insert into stadiums(StadiumName, Place, NumberOfRows, NumberOfColumns) Values(?, ?, ?, ?)",
+        {
+            replacements: [
+                Data.params.StadiumName,
+                Data.params.Place,
+                Data.params.NumberOfRows,
+                Data.params.NumberOfColumns
+                           ],
+            type: QueryTypes.INSERT
+        }
+	).then(result => {
+        res.send("Success");
+    });
+}

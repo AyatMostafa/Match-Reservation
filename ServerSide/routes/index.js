@@ -10,5 +10,5 @@ router.put('/users/ApproveUser/:username', user.ApproveUser);
 router.delete('/users/DeleteUser/:username', user.DeleteUser);
 router.get('/CustomerInfo', customer.fetchCustomerData);
 router.post('/EditInfo', customer.EditInfo);
-
+router.post('/AddStadium',customer.AddStadium);
 module.exports = router;

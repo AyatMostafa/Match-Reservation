@@ -9,7 +9,7 @@ import CancelReservation from './components/CancelReservation'
 import { BrowserRouter, Route,Switch } from 'react-router-dom';
 import './App.css';
 import Square from './components/Square'
-
+import Stadium from './components/AddStadium'
 
 function App() {
   return (
@@ -19,7 +19,9 @@ function App() {
           <Route path="/profile">
             <Customer />
           </Route>
-          
+          <Route path="/addStadium">
+            <Stadium/>
+          </Route>
           <Route path="/profile/admin/users">
             <UserList />
           </Route>
