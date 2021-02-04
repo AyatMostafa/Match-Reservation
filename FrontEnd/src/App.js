@@ -8,6 +8,7 @@ import Square from './components/Square';
 import EditMatch from './components/EditMatch.js';
 import UserList from './components/UserList';
 import Stadium from './components/AddStadium';
+import MatchSeats from './components/MatchSeats'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
@@ -19,7 +20,12 @@ const MatchWithId = ({match}) =>
         <EditMatch matchID={match.params.matchId} />
     );
 }
-
+const StadiumName = ({match}) => 
+{
+    return(
+        <MatchSeats StadiumName={match.params.matchVenue} />
+    );
+}
 function App() {
   return (
 
@@ -28,6 +34,13 @@ function App() {
         <Route path='/matches/:matchId'  render={({ location,  match }) => (
         <MatchWithId key={location.key} match={match} />
         )} />
+
+        <Route path='/stadium/:matchVenue'  render={({ location,  match }) => (
+        <StadiumName key={location.key} match={match} />
+        )} />
+        <Route path="/seats">
+          <MatchSeats />
+        </Route>
 
         <Route path="/matches">
           <Matches />

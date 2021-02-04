@@ -40,6 +40,12 @@ function MatchDetails ({match, num, is_Maganger}) {
                         </Link>
                         : <div></div>
                     }
+                         
+                    <Link to={`/stadium/${match.Venue}`}> 
+                        <Button className="bg-dark" style={{float:'right'}}>View seats</Button>
+                    </Link>
+                         
+                    
                 </CardBody>
         </Card>
         

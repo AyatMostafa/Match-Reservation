@@ -11,4 +11,6 @@ router.delete('/users/DeleteUser/:username', user.DeleteUser);
 router.get('/CustomerInfo', customer.fetchCustomerData);
 router.post('/EditInfo', customer.EditInfo);
 router.post('/AddStadium',customer.AddStadium);
+router.get('/FetchStadium',customer.FetchStadium);
+router.get('/ReservedSeats',customer.FetchReservedSeats);
 module.exports = router;

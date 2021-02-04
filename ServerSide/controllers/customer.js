@@ -78,3 +78,26 @@ exports.AddStadium = async function(req, res){
         res.send("Success");
     });
 }
+exports.FetchStadium = async function(req, res){
+    const [results, metadata] = await db.sequelize.query(
+        "select NumberOfRows,NumberOfColumns from stadiums where StadiumName=?",
+        {
+            replacements: [req.query.StadiumName],                    
+            type: QueryTypes.SELECT
+        }
+    );
+    
+    res.send(results);
+
+}
+
+exports.FetchReservedSeats = async function(req, res){
+    const [results, metadata] = await db.sequelize.query(
+        "select TicketNumber from reservedseats where StadiumName=?",
+        {
+            replacements: [req.query.StadiumName]                   
+        }
+    );
+    res.send(results);
+
+}
