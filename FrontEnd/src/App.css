@@ -87,6 +87,9 @@ address {
   border-radius: 4px;
   box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
   background: #fff;
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-bottom: 1%;
 }
 .odf-box-primary {
   border-top: 4px solid #fc0;
@@ -177,9 +180,24 @@ pa-menu-item.selected {
   transform: rotate(-90) translateY(-100px);
 }
 
-.form-label {
-}
+
 .App {
   font-family: sans-serif;
   text-align: center;
 }
+
+.b-aff-destination__input {
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 4px rgb(0 0 0 / 20%) inset;
+  border-radius: 4px;
+  color: #aaa;
+  font-size: 14px;
+  height: 40px;
+  padding: 10px;
+  margin: 0;
+}
+#addBtn{
+margin-top: 3%;
+}
+

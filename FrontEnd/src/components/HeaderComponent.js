@@ -1,10 +1,9 @@
-import React, { Component, useState} from 'react';
+import React, { Component} from 'react';
 import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 
 import Login from './Login'
 import SignUp from './SignUp'
-
 const serverURL = "http://localhost:5000";
 
 class Header extends Component {
@@ -34,10 +33,12 @@ class Header extends Component {
         const tokenString = sessionStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
         return userToken ? userToken : '';
+        
     }
     destroyToken(){
         delete sessionStorage.removeItem('token');
         this.setState({token: this.getToken()});
+
     }
 
     toggleNav() {
@@ -55,7 +56,9 @@ class Header extends Component {
             isSignUpOpen: !this.state.isSignUpOpen
         });
     }
+    
     render() {
+        
         return(
             <React.Fragment>
                 <Navbar dark expand="md">
@@ -66,7 +69,7 @@ class Header extends Component {
                         <Collapse isOpen={this.state.isNavOpen} navbar>
                             <Nav className="m-auto" navbar>
                                 <NavItem className="ml-4">
-                                    <NavLink className="nav-link "  to='/home'><span className="fa fa-home fa-lg"></span> Home</NavLink>
+                                    <NavLink className="nav-link "  to='/'><span className="fa fa-home fa-lg"></span> Home</NavLink>
                                 </NavItem>
                                 <NavItem  className="ml-5">
                                     <NavLink className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About Us</NavLink>
@@ -77,9 +80,13 @@ class Header extends Component {
                                 <NavItem  className="ml-5 ">
                                     <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>
                                 </NavItem>
-                                <NavItem  className="ml-5 ">
+                               
+                                {   this.state.token ? 
+                                <NavItem  className="ml-5 " >
                                     <NavLink className="nav-link" to='/profile'><span className="fa fa-user fa-lg"></span>My Account</NavLink>
                                 </NavItem>
+                                :null
+                                }
                             </Nav>
                             <Nav navbar>
                                 {   !this.state.token ? 
@@ -97,9 +104,9 @@ class Header extends Component {
                                     : null  //this null would be updated
                                 }
                             </Nav>
-                            <Nav className="ml-4" navbar>
+                            <Nav className="ml-4" navbar >
                                 {   this.state.token ? 
-                                    <NavItem>
+                                    <NavItem >
                                         <Button outline className="btn btn-light" onClick={this.destroyToken}><span className="fa fa-sign-in fa-lg"></span> Logout</Button>
                                     </NavItem>
                                     : null  //this null would be updated
@@ -108,7 +115,7 @@ class Header extends Component {
                         </Collapse>
                     {/* </div> */}
                 </Navbar>
-                <Jumbotron>
+                <Jumbotron className="rounded-0">
                     <div className="container mb-5">
                         <div className="row row-header">
                             <div className="col-12 col-m-6">

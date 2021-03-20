@@ -1,7 +1,13 @@
 var mysql      = require('mysql');
 const express = require("express");
+var cors = require('cors')
+var cookieParser = require('cookie-parser');
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 const connection = mysql.createConnection({
   host     : 'localhost',
@@ -23,24 +29,24 @@ connection.connect();
 // 	"usr":"ahmed"
 // }
 app.post('/api/ReserveSeat', (req,res)=>{
-     if(!req.body.seatNo || isNaN(req.body.seatNo)){
+     if(!req.body.seatNo){
          // bad request
-         res.status(400).send("you must enter a seat number")
+         res.send("you must enter a seat number")
          return;
      }
      if(!req.body.stadiumName){
         // bad request
-        res.status(400).send("you must enter a seat number")
+        res.send("you must enter the stadium name")
         return;
     }
-     if(!req.body.creditCard || isNaN(req.body.creditCard)){
+     if(!req.body.creditCard){
         // bad request
-        res.status(400).send("you must enter a credit card number")
+        res.send("you must enter a credit card number")
         return;
     }
     if(! req.body.matchDate){
         // bad request
-        res.status(400).send("you must enter the match date")
+        res.send("you must enter the match date")
         return;
     }
     query="select seatNo from reservedseats where stadiumName='"+req.body.stadiumName+"' and matchDate='"+req.body.matchDate+"'";
@@ -48,7 +54,7 @@ app.post('/api/ReserveSeat', (req,res)=>{
         if (error) throw error;
         for(let i=0;i<results.length;++i){
             if(req.body.seatNo==results[i].seatNo){
-                res.status(505).send("please insert another seat");
+                res.send("please insert another seat");
                 return;
             }
         }
@@ -61,9 +67,9 @@ app.post('/api/ReserveSeat', (req,res)=>{
         query="insert into reservedseats values('"+req.body.stadiumName+"',"+ticketNo+","+req.body.seatNo+",'"+req.body.usr+"','"+DateNow+"','"+req.body.matchDate+"');";
         connection.query(query, function (error, results, fields) {
           if (error) {;
-            res.status(404).send("input not found")
+            res.send("input not found")
           }
-          res.status(200).send("Done")
+          res.send("Done, ticket No = "+ticketNo)
     });
   });
     });
@@ -75,9 +81,9 @@ app.post('/api/ReserveSeat', (req,res)=>{
 //	"ticketNo":1234568
 //}
 app.delete("/api/cancelReservation",(req,res)=>{
-    if(!req.body.ticketNo || isNaN(req.body.ticketNo)){
+    if(!req.body.ticketNo){
         // bad request
-        res.status(400).send("you must enter a ticket number")
+        res.send("you must enter a ticket number")
         return;
     }
     query="select ReservationDate from reservedseats where TicketNumber='"+req.body.ticketNo+"' and ReservingUser ='"+req.body.usr+"'";
@@ -85,24 +91,45 @@ app.delete("/api/cancelReservation",(req,res)=>{
     connection.query(query,  function (error, results, fields) {
         if (error) throw error;
         if(results.length==0){
-            res.status(505).send("this ticket isn't exist or didn't assigned to this user");
+            res.send("this ticket isn't exist or didn't assigned to this user");
         }
         else{
             date=new Date()
             if(((((date-results[0].ReservationDate)/1000)/60)/60)/24 <= 3.0){
-                query="delete from reservedseats where TicketNumber="+req.body.ticketNo;
+                query="delete from reservedseats where TicketNumber="+req.body.ticketNo+" and ReservingUser= '"+req.body.usr+"'";
                 connection.query(query, function (error, results, fields) {
                     if (error) throw error;
-                    res.status(200).send("done");
+                    res.send("done");
                 });
             }
             else{
-                res.status(500).send("time allowed for cancellation exceeded");
+                res.send("time allowed for cancellation exceeded");
             }
         }
     });
 });
 
+
+app.post('/api/ReserveSeat/GetTimeDate', (req,res)=>{
+   if(!req.body.stadiumName){
+        // bad request
+        res.send("please, choose the stadium")
+        return;
+    }
+   query="select DateAndTime from matches where Venue='"+req.body.stadiumName+"'";
+   connection.query(query, async function (error, results, fields) {
+       if (error) throw error;
+       sentData=[]
+       for (var i=0;i<results.length;++i) {
+        //console.log(key);
+        sentData.push(results[i].DateAndTime);
+      }
+       res.send(sentData)
+   });
+});
+
 app.listen(5000,()=>console.log('listening on port 5000..'));
  
 // connection.end();
+
+

@@ -64,3 +64,41 @@ exports.SignUp = async function(req, res){
         res.send("Success");
     });
 }
+
+exports.fetchNonAdminUsers = async function(req, res){
+    const [results, metadata] = await db.sequelize.query(
+        "Select UserName,Approved From users Where not UserRole = 'A'"
+        );
+    res.send(results);
+}
+
+exports.DeleteUser = async function(req, res){
+    try {
+        return db.sequelize.query(
+        "Delete from users where UserName = ?",
+        {
+            replacements: [req.params.username],
+            type: QueryTypes.DELETE
+        }
+        ).then(result => {
+            res.send("Success");
+        });
+    }catch(error){
+        console.log("failed to delete");
+        res.status(500).send("Failed");
+    }
+}
+
+exports.ApproveUser = async function(req, res){
+    const [results, metadata] = await db.sequelize.query(
+        "Update users Set Approved = ? where UserName = ?",
+        {
+            replacements: ['Y', req.params.username],
+            type: QueryTypes.UPDATE
+        }
+        );
+    if(metadata)
+        res.send("Success");
+    else 
+        res.send("Failed");
+}
