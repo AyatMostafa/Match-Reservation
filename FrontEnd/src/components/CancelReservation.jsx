@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import Header from './HeaderComponent';
 import Customer from './CustomerComponent'
 import Footer from './FooterComponent';
+import axios from 'axios';
+
 class CancelReservation extends Component {
     state = {
            done:false,
@@ -13,12 +15,22 @@ class CancelReservation extends Component {
         this.setState({TicketId:e.target.value})
     }
     HandleSubmit=()=>{
-       // do the cancel logic
-       this.setState({done:true})
-    //    if()
-        this.setState({text:"done successfully"})
-    //    else
-        //  this.setState({text:"this ticket id may be wrong or didn't assigned to this username"})
+        axios.delete('http://localhost:5000/api/cancelReservation',{
+           data : { 
+            ticketNo: this.state.TicketId,
+            //usr:this.props.username
+            usr:'ahmed'
+        }
+        })
+        .then(response => {
+            this.setState({text: response.data},()=>{
+                    this.setState({done:true});
+            });
+            console.log(response.data)
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
     }
 
     render() { 
