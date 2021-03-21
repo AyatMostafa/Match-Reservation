@@ -18,9 +18,9 @@ export class MatchSeats extends React.Component {
       this.fetchRowsCols = this.fetchRowsCols.bind(this);
       this.createRows = this.createRows.bind(this);
       this.fetchReserved = this.fetchReserved.bind(this);
-      this.fetchReserved();
+      //this.fetchReserved();
       this.fetchRowsCols();
-      
+      this.createRows();
     }
      fetchRowsCols(){
         this.fetchReserved();
@@ -58,7 +58,6 @@ export class MatchSeats extends React.Component {
          
     }
     async createRows(row, seats){
-        console.log("fuck",this.state.reserved);
         let rows=[]
         let tickt = 0;
         for(var i=0;i<row;++i){
@@ -74,7 +73,8 @@ export class MatchSeats extends React.Component {
         }
         this.setState({rowList:rows});
       }
-     
+   
+
     render() {
    
       return (
