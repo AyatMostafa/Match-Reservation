@@ -116,7 +116,7 @@ exports.cancelReservation= async function(req,res){
 
 exports.GetTimeDate=async function(req, res){
     console.log(req);
-   if(!req.body.stadiumName){
+   if(!req.query.stadiumName){
         // bad request
         res.send("please, choose the stadium")
         return;
@@ -126,7 +126,7 @@ exports.GetTimeDate=async function(req, res){
     const results = await db.sequelize.query(
         "select DateAndTime from matches where Venue= ?",
         {
-            replacements: [req.body.stadiumName],
+            replacements: [req.query.stadiumName],
             type: QueryTypes.SELECT
         });
 

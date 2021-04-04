@@ -17,7 +17,6 @@ exports.fetchCustomerData = async function(req, res){
 
 
 exports.EditInfo = async function(req, res){
-    console.log("fucking",req.body.params);
     const [results, metadata] = await db.sequelize.query(
         "Update users Set FName=?,LName=?,Gender=?,City=?,UserAddress=?,UserRole=?,Pass=? where UserName = ?",
         {
@@ -46,7 +45,6 @@ exports.EditInfo = async function(req, res){
 exports.AddStadium = async function(req, res){
 
     const Data = req.body;
-    console.log(req.body);
     const [results, metadata] = await db.sequelize.query(
         "select StadiumName from stadiums where StadiumName=?",
         {

@@ -4,6 +4,7 @@ var router = express.Router();
 let user = require('../controllers/user');
 let customer = require('../controllers/customer');
 let customerReservation = require('../controllers/customerReservation');
+let matches = require('../controllers/matches');
 
 router.post('/Login', user.Login)
 router.post('/SignUp', user.SignUp)
@@ -18,4 +19,8 @@ router.get('/ReservedSeats',customer.FetchReservedSeats);
 router.get('/GetTimeDate',customerReservation.GetTimeDate);
 router.post('/ReserveSeat',customerReservation.ReserveSeat);
 router.delete('/cancelReservation',customerReservation.cancelReservation);
+router.post('/matches/CreateMatch', matches.CreateMatch);
+router.post('/matches', matches.showMatches );
+router.post( '/EditMatch', matches.EditMatch);
+
 module.exports = router;
