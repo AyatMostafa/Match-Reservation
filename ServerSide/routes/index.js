@@ -3,6 +3,8 @@ var router = express.Router();
 
 let user = require('../controllers/user');
 let customer = require('../controllers/customer');
+let matches = require('../controllers/matches');
+
 router.post('/Login', user.Login)
 router.post('/SignUp', user.SignUp)
 router.get('/nonAdminUsers', user.fetchNonAdminUsers);
@@ -13,4 +15,8 @@ router.post('/EditInfo', customer.EditInfo);
 router.post('/AddStadium',customer.AddStadium);
 router.get('/FetchStadium',customer.FetchStadium);
 router.get('/ReservedSeats',customer.FetchReservedSeats);
+router.post('/matches/CreateMatch', matches.CreateMatch);
+router.post('/matches', matches.showMatches );
+router.post( '/EditMatch', matches.EditMatch);
+
 module.exports = router;

@@ -4,7 +4,6 @@ import { NavLink} from 'react-router-dom';
 
 import Login from './Login'
 import SignUp from './SignUp'
-const serverURL = "http://localhost:5000";
 
 class Header extends Component {
     

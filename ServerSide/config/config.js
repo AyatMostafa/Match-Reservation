@@ -5,7 +5,7 @@ module.exports = {
     "database": "EFA_DB",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "port" : 3307
+    "port" : 3308
   },
   "test": {
     "username": "root",

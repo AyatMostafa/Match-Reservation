@@ -4,27 +4,45 @@ import { Label, FormGroup, Button, Form  } from 'reactstrap';
 import DatePicker from "react-datepicker";
 import Select from "react-select";
 import { withRouter,Redirect } from 'react-router-dom';
+import Header from './HeaderComponent';
+import Footer from './FooterComponent';
 
 const serverURL = "http://localhost:5000";
 
-class EditMatch extends Component {
+class CreateMatch extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            match: [],
+            HomeTeam: '',
+            AwayTeam: '',
+            Venue: '',
+            DateAndTime: Date.parse(""),
+            MainReferee: '',
+            LineMan1: '',
+            LineMan2: '',
             error: false,
             done: false,
-            redirectVal: false,
-            Home: this.props.matchh.match.HomeTeam,
-            Away: this.props.matchh.match.AwayTeam,
-            Date: new Date(this.props.matchh.match.DateAndTime),
-            Ven: this.props.matchh.match.Venue,
-            Referee: this.props.matchh.match.MainReferee,
-            Line1: this.props.matchh.match.LineMan1,
-            Line2: this.props.matchh.match.LineMan2,
-            oldVenue: this.props.matchh.match.Venue,
-            oldDate: new Date(this.props.matchh.match.DateAndTime)
+            redirectVal: false
         };
+        this.teams = [
+            { value: 'Al Ahly', label: 'Al Ahly' },
+            { value: 'Zamalek', label: 'Zamalek' },
+            { value: 'El Gouna', label: 'El Gouna' },
+            { value: 'Pyramids', label: 'Pyramids' },
+            { value: 'Al Masry', label: 'Al Masry' },
+            { value: 'ENPPI', label: 'ENPPI' },
+            { value: 'Misr Lel Makkasa', label: 'Misr Lel Makkasa' },
+            { value: 'Smouha', label: 'Smouha' },
+            { value: 'Ceramica Cleopatra', label: 'Ceramica Cleopatra' },
+            { value: 'National Bank', label: 'National Bank' },
+            { value: 'Ghazl El Mahala', label: 'Ghazl El Mahala' },
+            { value: 'Al Ittihad', label: 'Al Ittihad' },
+            { value: 'Ismaily', label: 'Ismaily' },
+            { value: 'El Gaish', label: 'El Gaish' },
+            { value: 'Al Mokawloon', label: 'Al Mokawloon' },
+            { value: 'Wadi Degla', label: 'Wadi Degla' },
+            { value: 'E Entag El Harby', label: 'E Entag El Harby' }
+        ]
         this.optionsVenue = [
             { value: 'Alexandria', label: 'Alexandria' },
             { value: 'Aswan', label: 'Aswan' },
@@ -85,7 +103,7 @@ class EditMatch extends Component {
 
     async handleSubmitMatch(event) {
         event.preventDefault();
-        if(this.state.Line1 === this.state.Line2)
+        if(this.state.LineMan1 === this.state.LineMan2)
         {
             this.setState({
                 error : true
@@ -95,27 +113,35 @@ class EditMatch extends Component {
             this.setState({
                 error : false
             });
-            axios.post(serverURL + '/EditMatch',{
-                Venue: this.state.Ven,
-                DateAndTime: this.state.Date,
-                MainReferee: this.state.Referee,
-                LineMan1: this.state.Line1,
-                LineMan2: this.state.Line2,
-                idVenue: this.state.oldVenue,
-                idDate: this.state.oldDate
-            })
-            .then(result => {
+            console.log("handleSubmit");
+
+            axios.post(serverURL + '/matches/CreateMatch',{
+                HomeTeam: this.state.HomeTeam,
+                AwayTeam: this.state.AwayTeam,
+                Venue: this.state.Venue,
+                DateAndTime: this.state.DateAndTime,
+                MainReferee: this.state.MainReferee,
+                LineMan1: this.state.LineMan1,
+                LineMan2: this.state.LineMan2
+            }).then(result => {
                 if(result.data === "Success")
                 {
+                    console.log("Success");
                     this.setState({
                         done : true
                     }); 
-                    // setTimeout( function() {
-                    //     this.setState({
-                    //         redirectVal : true
-                    //     }); 
-                    // }.bind(this), 3000)
 
+                    setTimeout( function() {
+                        this.setState({
+                            redirectVal : true
+                        }); 
+                    }.bind(this), 3000)
+
+                    // setTimeout({
+                    //     render(){
+                    //         return <Redirect to={"/matches"} />
+                    //     }
+                    // }, 2000)
                 }
             })
             .catch(function(error) {
@@ -127,60 +153,71 @@ class EditMatch extends Component {
     render() {
         return (
             <React.Fragment>
+                <Header/>
                 <br/>
                 <div className="container border rounded">
                     <br/>
-                    {/* <h2 style={{color:"#3679be", textAlign:"center"}}> Edit Match Event </h2> */}
+                    <h2 style={{color:"#3679be", textAlign:"center"}}> Create New Match Event </h2>
                     <Form onSubmit={this.handleSubmitMatch} className="m-20">
-                        <FormGroup>
-                            <Label htmlFor="homeTeam" style={{fontWeight: 'bold', fontSize: 18}}>Home Team : {this.state.Home}</Label>
-
+                        <FormGroup style={{fontWeight: 'bold', fontSize: 18}}>
+                            <Label htmlFor="homeTeam" >Home Team : </Label>
+                            <Select
+                                placeholder={this.state.HomeTeam}
+                                options={this.teams}
+                                value={this.state.HomeTeam}
+                                onChange={(input) => this.setState({HomeTeam: input.value})}
+                            />
                         </FormGroup>
 
-                        <FormGroup>
-                            <Label htmlFor="homeTeam"style={{fontWeight: 'bold', fontSize: 18}} >Away Team : {this.state.Away}</Label>
-
+                        <FormGroup style={{fontWeight: 'bold', fontSize: 18}}>
+                            <Label htmlFor="homeTeam">Away Team :</Label>
+                            <Select
+                                placeholder={this.state.AwayTeam}
+                                options={this.teams}
+                                value={this.state.AwayTeam}
+                                onChange={(input) => this.setState({AwayTeam: input.value})}
+                            />
                         </FormGroup>
 
-                        <FormGroup style={{fontSize: 18}}>
+                        <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
                             <Label htmlFor="DateAndTime">Date And Time : &nbsp;</Label>
-                            <DatePicker selected={this.state.Date} onChange={date => this.setState({Date: date})}/>
+                            <br/>
+                            <DatePicker selected={this.state.DateAndTime} onChange={date => this.setState({DateAndTime: date})}/>
                         </FormGroup>
-
-                        <FormGroup style={{fontSize: 18}}>
+                        <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
                             <Label htmlFor="Venue" >Venue :</Label>
                             <Select
-                                placeholder={this.state.Ven}
+                                placeholder={this.state.Venue}
                                 options={this.optionsVenue}
-                                value={this.state.Ven}
-                                onChange={(input) => this.setState({Ven: input.value})}
+                                value={this.state.Venue}
+                                onChange={(input) => this.setState({Venue: input.value})}
                             />
                         </FormGroup>
-                        <FormGroup style={{fontSize: 18}}>
+                        <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
                             <Label htmlFor="MainReferee" >Main Referee :</Label>
                             <Select
-                                placeholder={this.state.Referee}
+                                placeholder={this.state.MainReferee}
                                 options={this.optionsMainReferee}
-                                value={this.state.Referee}
-                                onChange={(input) => this.setState({Referee: input.value})}
+                                value={this.state.MainReferee}
+                                onChange={(input) => this.setState({MainReferee: input.value})}
                             />
                         </FormGroup>
-                        <FormGroup style={{fontSize: 18}}>
+                        <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
                             <Label htmlFor="LineMan1" >Line Man1 :</Label>
                             <Select
-                                placeholder={this.state.Line1}
+                                placeholder={this.state.LineMan1}
                                 options={this.optionsLineMan}
-                                value={this.state.Line1}
-                                onChange={(input) => this.setState({Line1: input.value})}
+                                value={this.state.LineMan1}
+                                onChange={(input) => this.setState({LineMan1: input.value})}
                             />
                         </FormGroup>
-                        <FormGroup style={{fontSize: 18}}>
+                        <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
                             <Label htmlFor="LineMan2" >Line Man2 :</Label>
                             <Select
-                                placeholder={this.state.Line2}
+                                placeholder={this.state.LineMan2}
                                 options={this.optionsLineMan}
-                                value={this.state.Line2}
-                                onChange={(input) => this.setState({Line2: input.value})}
+                                value={this.state.LineMan2}
+                                onChange={(input) => this.setState({LineMan2: input.value})}
                             />
                             {
                                 this.state.error ? 
@@ -190,17 +227,22 @@ class EditMatch extends Component {
                         </FormGroup>
                         {
                             this.state.done ? 
-                                <div style={{color:'green', fontSize:17, textAlign:'center'}}> Match Event is updated</div>                            :
+                                <div style={{color:'green', fontSize:17, textAlign:'center', fontStyle:'oblique'}}> Match Event is Created</div>                            :
                             null
                         }
-                        <Button style={{width:'20%'}} type="submit" value="submit" color="primary">Edit</Button>
+                        {
+                            this.state.redirectVal ? 
+                            <Redirect to='/matches' />: null
+                        }
+                        <Button style={{width:'20%'}} size="lg" type="submit" value="submit" color="primary">Create</Button>
                     </Form>
                     <br/>
                 </div>
                 <br/>
+                <Footer/>
             </React.Fragment>
         );
     }
 }
 
-export default withRouter(EditMatch);
+export default withRouter(CreateMatch);
