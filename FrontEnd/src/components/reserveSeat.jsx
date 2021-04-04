@@ -5,13 +5,16 @@ import Header from './HeaderComponent';
 import Dropdown from 'react-dropdown';
 import Customer from './CustomerComponent'
 import login from './Login'
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Modal } from "react-bootstrap";
+
 
 const options = [
     'Cairo', 'Borj El Arab stadium', 'Alexandria Stadium'
   ];
 
-
-class ReserveSeat extends Component {
+ 
+export class ReserveSeat extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,14 +27,13 @@ class ReserveSeat extends Component {
     }
 
     async handleSubmit(event){
-        //event.preventDefault();        
-        axios.post('http://localhost:5000/api/ReserveSeat',{
+        console.log(this.state.seatNumber)        
+        axios.post('http://localhost:5000/ReserveSeat',{
             seatNo: this.state.seatNumber,
             stadiumName: this.state.stadiumName,
             creditCard: this.state.CreditCard,
             matchDate:this.state.matchDate,
-            //usr:this.props.username
-            usr:'ahmed'
+            usr: window.sessionStorage.getItem('token').split('-')[0].slice(1,)
         })
         .then(response => {
             this.setState({text: response.data},()=>{
@@ -44,12 +46,16 @@ class ReserveSeat extends Component {
         });
     }
 
-    async handleDateRequest(event){
-       // event.preventDefault();
+     async handleDateRequest(event){
+       //event.preventDefault();
        console.log(this.state.stadiumName)
-        axios.post('http://localhost:5000/api/ReserveSeat/GetTimeDate',{
-            stadiumName: this.state.stadiumName,
+       console.log(window.sessionStorage.getItem('token'))
+       axios.get('http://localhost:5000/GetTimeDate',{
+            params: {
+                stadiumName:this.state.stadiumName
+                }
         })
+        
         .then(response => {
             console.log(response.data)
             this.setState({dates: response.data});
@@ -79,41 +85,24 @@ class ReserveSeat extends Component {
         this.setState({matchDate:e.value});
     }
 
+    closeModal = () => {
+        this.setState({ printNum: false });
+    }
+  
 
-   // HandleSubmit=()=>{
-     //   console.log(this.state.seatNumber);
-       // console.log(this.state.CreditCard);
-        //this.state.generatedId=1;
-        //this.setState({printNum:true});
-        //this.setState({text:"Ticket Id= 1"});
-    //}
-
+   
 
     render() { 
 
 
         return (
         <div class="page-container">
-            <div className="mt-10">
-                    <br></br>
-            </div>
             <div class="page-container">
                 <Header />
-
                     <div class="row" id="customer_content">
                         <div class="col-2" id="sidebar">
                           <div class="pa_menu_body od-pa-menu-body odf-box odf-box-primary">
                               <div class="od-pa-menu-list">
-                              <a href="/profile">
-                                  <div class="od-pa-menu-item">
-                                    <span id="icon" className="fa fa-edit fa-lg"></span>Edit my info
-                                  </div>
-                               </a>
-                               <a href="/matches">
-                                  <div class="od-pa-menu-item">
-                                     <span id="icon" className="fa fa-list fa-lg"></span>View Matches
-                                  </div>
-                                  </a>
                                 <a href="/reserve">
                                  <div class="od-pa-menu-item">
                                     <span id="icon" className="fa fa-ticket fa-lg"></span> Reserve seats
@@ -134,14 +123,15 @@ class ReserveSeat extends Component {
                                     <div class="row">
                                         <div class="col-6">
                                             <label for="seatNumber" class="form-label">Seat number</label>
-                                            <input type="text" class="form-control" id="inputReserve" value={this.state.seatNumber} onChange={this.handleSeatChange}></input>
+                                            <input type="text" class="col-7 form-control" id="inputReserve" value={this.state.seatNumber} onChange={this.handleSeatChange}></input>
 
                                         </div>
                                         <div class="col-6">
                                             <label for="creditCard" class="form-label">Credit Card pin number</label>
                                             <input type="text" class="form-control" id="inputReserve" value={this.state.CreditCard} onChange={this.handleCardChange}></input>
                                         </div>
-
+                                    </div>
+                                    <div class="row">
                                         <div class="col-6">
                                             <label for="Stadium" class="form-label lbl">Choose the Stadium</label>
                                             <Dropdown options={options} onChange={this.handlestadiumChange} value='' placeholder="Select an option" className="dropDown dr"/>
@@ -149,17 +139,23 @@ class ReserveSeat extends Component {
 
                                         <div class="col-6">
                                             <label for="Date" class="form-label lbl">Choose the Date</label>
-                                            {/*<input type="select" onChange={this.handlematchDateChange} label="Multiple Select" multiple>
-                                                {this.handleDateRequest()}*
-                                               </input>*/}
                                             <Dropdown options={this.state.dates} onChange={this.handlematchDateChange} value='' placeholder="Select an option" className="dropDown dr" disabled={this.state.showDateList} />
                                         </div>
                                     </div>
-                                    <div>
-                                        <a href="/showseats"><span id="icon1" className="fa fa-list fa-lg"></span>show seats graphically</a>
-                                        </div>
-                                    <button type="button" class="btn btn-primary btn-style" onClick={this.handleSubmit}>confirm</button>
-                                    <p>{ this.state.printNum==true?this.state.text:<p/>}</p>
+                                    <div class= "row">
+                                        <button type="button" class="btn btn-primary btn-style" onClick={this.handleSubmit}>confirm</button>
+                                    </div>
+                                        <Modal show={this.state.printNum}>
+                                            <Modal.Header>
+                                                <Modal.Title>Welcome</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>{this.state.text}</Modal.Body>
+                                            <Modal.Footer>
+                                                <Button type="button" class="btn btn-primary btn-style" onClick={this.closeModal}>
+                                                     Close
+                                                </Button>
+                                            </Modal.Footer>
+                                        </Modal>
                                     </form>
                             </div>
                            
