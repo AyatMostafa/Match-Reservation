@@ -5,7 +5,9 @@ import axios from "axios";
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import 'react-dropdown/style.css';
+import { Button } from "reactstrap";
 const serverURL = "http://localhost:5000";
+var len3=0;
 export class MatchSeats extends React.Component {
     constructor(props) {
       super(props);
@@ -13,7 +15,8 @@ export class MatchSeats extends React.Component {
           Rows:0,
           Cols:0,
           rowList:[],
-          reserved:[]
+          reserved:[],
+          firstReserved:[]
       }
       this.fetchRowsCols = this.fetchRowsCols.bind(this);
       this.createRows = this.createRows.bind(this);
@@ -21,8 +24,25 @@ export class MatchSeats extends React.Component {
       //this.fetchReserved();
       this.fetchRowsCols();
       this.createRows();
+
     }
-     fetchRowsCols(){
+    componentDidMount(){
+        
+        setInterval(() => {
+            var len = this.state.reserved.length;
+            this.fetchReserved();
+            console.log(len3);
+
+            if(len!=len3){
+                window.location.reload(false);
+            }
+
+         
+        }, 1000);
+    }
+    
+       fetchRowsCols(){
+        
         this.fetchReserved();
         axios.get(serverURL + '/FetchStadium',{
             params: {
@@ -36,10 +56,15 @@ export class MatchSeats extends React.Component {
                 });
               this.createRows(result.data.NumberOfRows, result.data.NumberOfColumns);
              });
-         
+             //this.createRows();
+             //setInterval(() => {
+               //  this.fetchRowsCols();
+                //this.createRows();
+                // }, 1000);
     }
 
-     fetchReserved(){
+      async fetchReserved(){
+        
         axios.get(serverURL + '/ReservedSeats',{
             params: {
                 StadiumName:this.props.StadiumName
@@ -55,16 +80,18 @@ export class MatchSeats extends React.Component {
                     reserved:arr});
            
              });
-         
+          
     }
-    async createRows(row, seats){
+       async createRows(row, seats){
         let rows=[]
         let tickt = 0;
         for(var i=0;i<row;++i){
             let newSeats=[]
             for(var j=0;j<seats;++j){
-                if(this.state.reserved.includes(tickt))
+                if(this.state.reserved.includes(tickt)){
+                     len3++;
                      newSeats.push({ id: i*seats+j, number: i*seats+j, isReserved:true});
+                }
                 else
                     newSeats.push({ id: i*seats+j, number: i*seats+j, isReserved:false});
                 tickt++;
@@ -83,7 +110,8 @@ export class MatchSeats extends React.Component {
               {this.state.rowList.length>0?
                 <SeatPicker
               rows={this.state.rowList}
-            ></SeatPicker>:<div></div>
+            ></SeatPicker>:<div> </div>
+            
               }
               <Footer/>
           </div>
