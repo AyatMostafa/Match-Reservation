@@ -142,7 +142,7 @@ export class SignUp extends React.Component {
         if(response.data === "Success")
         {
           this.props.setShow();
-          this.props.setToken(this.state.username + '-' + this.state.Role);
+          //this.props.setToken(this.state.username + '-' + this.state.Role);
         }
         else
         {
