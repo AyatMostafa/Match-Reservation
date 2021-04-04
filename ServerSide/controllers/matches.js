@@ -40,7 +40,7 @@ exports.EditMatch = async function(req, res){
     // req.setTimeout(0);
     const Data = req.body;
     const [results, metadata] = await db.sequelize.query(
-        "Update matches Set Venue = ?, DateAndTime = ? , MainReferee = ? , LineMan1= ?, LineMan2 = ? where Venue = ? and DateAndime = ?",
+        "Update matches Set Venue = ?, DateAndTime = ?, MainReferee = ?, LineMan1= ?, LineMan2 = ? where Venue = ? and DateAndTime = ?",
         {
             replacements: [Data.Venue, Data.DateAndTime, Data.MainReferee, Data.LineMan1, Data.LineMan2, Data.idVenue, Data.idDate],
             type: QueryTypes.UPDATE
@@ -50,4 +50,6 @@ exports.EditMatch = async function(req, res){
         res.send("Success");
     else 
         res.send("Failed");
+    
+    // res.send();    
 }

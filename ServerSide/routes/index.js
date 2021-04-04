@@ -17,6 +17,6 @@ router.get('/FetchStadium',customer.FetchStadium);
 router.get('/ReservedSeats',customer.FetchReservedSeats);
 router.post('/matches/CreateMatch', matches.CreateMatch);
 router.post('/matches', matches.showMatches );
-router.post( '/EditMatch', matches.EditMatch);
+router.put('/EditMatch', matches.EditMatch);
 
 module.exports = router;
