@@ -9,6 +9,19 @@ import EditMatch from './EditMatch';
 
 const serverURL = "http://localhost:5000";
 
+function convert(str) {
+    var month, day, hours, minutes, seconds;
+    var date = new Date(str),
+    month = ("0" + (date.getMonth() + 1)).slice(-2),
+    day = ("0" + date.getDate()).slice(-2);
+    hours = ("0" + (date.getHours() - 2)).slice(-2);
+    minutes = ("0" + date.getMinutes()).slice(-2);
+    seconds = ("0" + date.getSeconds()).slice(-2);
+    
+    var mySQLDate = [date.getFullYear(), month, day].join("-");
+    var mySQLTime = [hours, minutes, seconds].join(":");
+    return [mySQLDate, mySQLTime].join(" ");
+}
 
 class Match extends Component {
     constructor(props) {
@@ -24,6 +37,7 @@ class Match extends Component {
         this.showMatches = this.showMatches.bind(this);
         this.toggleEdit = this.toggleEdit.bind(this);
         this.showAll = this.showAll.bind(this);
+        this.completeEdit = this.completeEdit.bind(this);
     }
 
     getToken(){
@@ -33,9 +47,13 @@ class Match extends Component {
     toggleEdit(num) {
         this.setState({
             isEditOpen: !this.state.isEditOpen,
-            // ClickedMatch: match
         });
         // console.log(num);
+    }
+
+    completeEdit(){
+        this.setState({isEditOpen: false});
+        this.showMatches();
     }
 
     showAll(matchh)
@@ -47,13 +65,13 @@ class Match extends Component {
     async showMatches(){
         axios.post(serverURL + '/matches').then(
             result => {
-            if(typeof result.data !== 'undefined' && result.data)
-            {
-                var newList = [];
-                for(var i = 0; i < result.data.length; i++)
-                    newList.push(result.data[i]);
-                this.setState({ matches: newList});
-            }
+                if(typeof result.data !== 'undefined' && result.data)
+                {
+                    var newList = [];
+                    for(var i = 0; i < result.data.length; i++)
+                        newList.push(result.data[i]);
+                    this.setState({ matches: newList});
+                }
             }
         )
     }
@@ -68,9 +86,13 @@ class Match extends Component {
         this.showMatches();
     }
     
+    // componentDidUpdate(){
+    //     if(this.getToken() === ''this.getToken() === null )
+    // }
     render() {
         const MatchDetails = ({match, num, is_Manager}) => 
         {
+            var date = convert(match.DateAndTime);
             return(
                 <Card>
                     <CardHeader className="bg-info text-white" style = {{ fontWeight: 'bold', fontSize: 20 }}>Match Event: {num} </CardHeader>
@@ -83,7 +105,7 @@ class Match extends Component {
                             <dt className="col-6">Venue :</dt>
                             <dd className="col-6"> {match.Venue} </dd>
                             <dt className="col-6"> Date And Time :</dt>
-                            <dd className="col-6"> {match.DateAndTime} </dd>
+                            <dd className="col-6">  {date} </dd>
                             <dt className="col-6"> Main Referee :</dt>
                             <dd className="col-6"> {match.MainReferee} </dd>
                             <dt className="col-6"> Line Man1 :</dt>
@@ -143,7 +165,7 @@ class Match extends Component {
                         {/* {
                             console.log(this.state.ClickedMatch)
                         } */}
-                        <EditMatch matchh={this.state.ClickedMatch}/>
+                        <EditMatch matchh={this.state.ClickedMatch} completeEdit={this.completeEdit}/>
                     </ModalBody>
                 </Modal>
             </React.Fragment>

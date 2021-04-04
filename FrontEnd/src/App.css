@@ -131,13 +131,34 @@ pa-menu-item.selected {
   color: #ccc;
   margin-right: 3%;
 }
+
+.dr {
+  margin-top: 0%;
+  left: 0%;
+  min-width: 160px;
+}
+
+.lbl {
+  margin-top: 3%;
+  margin-left: 1%;
+}
+#icon1 {
+  color: #ccc;
+  margin-right: 3%;
+  margin-top: 15%;
+}
 #customer_content {
   margin-top: 3%;
 }
 
 .btn-style {
-  margin-top: 2%;
-  margin-bottom: 1%;
+  margin-top: 8%;
+  margin-left: 2%;
+}
+
+.btn-cancel-style {
+  margin-top: 1%;
+  left: 1%;
 }
 
 .dropDown {
@@ -180,7 +201,6 @@ pa-menu-item.selected {
   transform: rotate(-90) translateY(-100px);
 }
 
-
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -197,7 +217,6 @@ pa-menu-item.selected {
   padding: 10px;
   margin: 0;
 }
-#addBtn{
-margin-top: 3%;
+#addBtn {
+  margin-top: 3%;
 }
-

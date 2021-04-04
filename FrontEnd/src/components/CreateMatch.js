@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Label, FormGroup, Button, Form  } from 'reactstrap';
 import DatePicker from "react-datepicker";
+import DateTimePicker from 'react-datetime-picker';
 import Select from "react-select";
 import { withRouter,Redirect } from 'react-router-dom';
 import Header from './HeaderComponent';
@@ -182,7 +183,7 @@ class CreateMatch extends Component {
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
                             <Label htmlFor="DateAndTime">Date And Time : &nbsp;</Label>
                             <br/>
-                            <DatePicker selected={this.state.DateAndTime} onChange={date => this.setState({DateAndTime: date})}/>
+                            <DateTimePicker onChange={date => this.setState({DateAndTime: date})} value={this.state.DateAndTime}/>
                         </FormGroup>
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
                             <Label htmlFor="Venue" >Venue :</Label>
