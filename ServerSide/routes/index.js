@@ -21,6 +21,6 @@ router.post('/ReserveSeat',customerReservation.ReserveSeat);
 router.delete('/cancelReservation',customerReservation.cancelReservation);
 router.post('/matches/CreateMatch', matches.CreateMatch);
 router.post('/matches', matches.showMatches );
-router.post( '/EditMatch', matches.EditMatch);
+router.put('/EditMatch', matches.EditMatch);
 
 module.exports = router;

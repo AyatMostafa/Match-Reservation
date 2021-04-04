@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Label, FormGroup, Button, Form  } from 'reactstrap';
 import DatePicker from "react-datepicker";
 import Select from "react-select";
-import { withRouter,Redirect } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 const serverURL = "http://localhost:5000";
 
@@ -11,8 +11,8 @@ class EditMatch extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            match: [],
             error: false,
+            error2: false,
             done: false,
             redirectVal: false,
             Home: this.props.matchh.match.HomeTeam,
@@ -91,11 +91,11 @@ class EditMatch extends Component {
                 error : true
             });
         }
-        else{
-            this.setState({
-                error : false
-            });
-            axios.post(serverURL + '/EditMatch',{
+        else
+        {
+            this.setState({ error : false });
+
+            axios.put(serverURL + '/EditMatch',{
                 Venue: this.state.Ven,
                 DateAndTime: this.state.Date,
                 MainReferee: this.state.Referee,
@@ -107,15 +107,15 @@ class EditMatch extends Component {
             .then(result => {
                 if(result.data === "Success")
                 {
-                    this.setState({
-                        done : true
-                    }); 
-                    // setTimeout( function() {
-                    //     this.setState({
-                    //         redirectVal : true
-                    //     }); 
-                    // }.bind(this), 3000)
-
+                    this.setState({ done : true }); 
+                    setTimeout( function() {
+                        this.props.completeEdit();
+                    }.bind(this), 3000)
+                    
+                }
+                else if(result.data === "Failed")
+                {
+                    this.setState({error2: true});
                 }
             })
             .catch(function(error) {
@@ -191,6 +191,11 @@ class EditMatch extends Component {
                         {
                             this.state.done ? 
                                 <div style={{color:'green', fontSize:17, textAlign:'center'}}> Match Event is updated</div>                            :
+                            null
+                        }
+                        {
+                            this.state.error2 ? 
+                            <span style={{color:'red'}}> Failed to update Match Event</span>:
                             null
                         }
                         <Button style={{width:'20%'}} type="submit" value="submit" color="primary">Edit</Button>
