@@ -120,7 +120,7 @@ class Match extends Component {
                             : <div></div>
                         }
                         
-                        <Link to={`/stadium/${match.Venue}`}> 
+                        <Link to={`/stadium/${match.Venue}/${match.DateAndTime}`}> 
                             <Button className="bg-dark" style={{float:'right'}}>View seats</Button>
                         </Link>
                             

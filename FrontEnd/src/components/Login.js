@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import ReserveSeat from "./reserveSeat";
 
 
 const serverURL = "http://localhost:5000";
@@ -41,6 +42,7 @@ export class Login extends React.Component {
       {
         this.props.setShow();
         this.props.setToken(this.state.username + '-' + response.data.charAt(response.data.length-1));
+        return <ReserveSeat data={this.state}></ReserveSeat>
       }
       else
       {

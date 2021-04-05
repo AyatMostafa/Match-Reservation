@@ -23,7 +23,7 @@ import './App.css';
 const StadiumName = ({match}) => 
 {
     return(
-        <MatchSeats StadiumName={match.params.matchVenue} />
+        <MatchSeats StadiumName={match.params.matchVenue} MatchDate={match.params.DateAndTime}/>
     );
 }
 function App() {
@@ -39,7 +39,7 @@ function App() {
           <CreateMatch />
         </Route>
 
-        <Route path='/stadium/:matchVenue'  render={({ location,  match }) => (
+        <Route path='/stadium/:matchVenue/:DateAndTime'  render={({ location,  match }) => (
         <StadiumName key={location.key} match={match} />
         )} />
         <Route path="/seats">

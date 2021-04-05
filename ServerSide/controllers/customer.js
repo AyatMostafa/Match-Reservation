@@ -51,6 +51,7 @@ exports.AddStadium = async function(req, res){
             replacements: [
                 Data.params.StadiumName,
                 
+                
                            ],
             type: QueryTypes.SELECT
         }
@@ -90,12 +91,14 @@ exports.FetchStadium = async function(req, res){
 }
 
 exports.FetchReservedSeats = async function(req, res){
+    console.log(req.query.MatchDate);
     const [results, metadata] = await db.sequelize.query(
-        "select TicketNumber from reservedseats where StadiumName=?",
+        "select seatNo from reservedseats where StadiumName=? and MatchDate=?",
         {
-            replacements: [req.query.StadiumName]                   
+            replacements: [req.query.StadiumName,req.query.MatchDate]                   
         }
     );
+
     res.send(results);
 
 }
