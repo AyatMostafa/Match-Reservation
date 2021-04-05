@@ -26,7 +26,7 @@ export class MatchSeats extends React.Component {
 
     }
     
-       async fetchRowsCols(){
+       async  fetchRowsCols(){
         
         this.fetchReserved();
         axios.get(serverURL + '/FetchStadium',{
@@ -45,7 +45,7 @@ export class MatchSeats extends React.Component {
           
     }
 
-       async fetchReserved(){
+        fetchReserved(){
         console.log(this.props.MatchDate);
         console.log(this.props.StadiumName);
         axios.get(serverURL + '/ReservedSeats',{
@@ -66,7 +66,7 @@ export class MatchSeats extends React.Component {
              });
           
     }
-        createRows(row, seats){
+         createRows(row, seats){
         let rows=[]
         let tickt = 0;
         for(var i=0;i<row;++i){

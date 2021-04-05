@@ -2,10 +2,10 @@ module.exports = {
   "development": {
     "username": "root",
     "password": "",
-    "database": "efa_db",
-    "host": "localhost",
+    "database": "EFA_DB",
+    "host": "127.0.0.1",
     "dialect": "mysql",
-    
+    "port" : 3307
   },
   "test": {
     "username": "root",
