@@ -18,21 +18,28 @@ class CancelReservation extends Component {
         this.setState({TicketId:e.target.value})
     }
     HandleSubmit=()=>{
-        axios.delete('http://localhost:5000/cancelReservation',{
-           data : { 
-            ticketNo: this.state.TicketId,
-            usr: window.sessionStorage.getItem('token').split('-')[0].slice(1,)
-        }
-        })
-        .then(response => {
-            this.setState({text: response.data},()=>{
-                    this.setState({done:true});
+        if(window.sessionStorage.getItem('token')==null){
+            this.setState({text:"Please, login first"},()=>{
+                this.setState({done:true});
             });
-            console.log(response.data)
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
+        }
+        else{
+            axios.delete('http://localhost:5000/cancelReservation',{
+            data : { 
+                ticketNo: this.state.TicketId,
+                usr: window.sessionStorage.getItem('token').split('-')[0].slice(1,)
+            }
+            })
+            .then(response => {
+                this.setState({text: response.data},()=>{
+                        this.setState({done:true});
+                });
+                console.log(response.data)
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        }
     }
 
     closeModal = () => {

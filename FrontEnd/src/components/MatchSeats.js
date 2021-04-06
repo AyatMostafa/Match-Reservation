@@ -114,7 +114,10 @@ export class MatchSeats extends React.Component {
               {this.state.rowList.length>0?
                 <SeatPicker
               rows={this.state.rowList}
-            ></SeatPicker>:<div> </div>
+            ></SeatPicker>:<div>
+                {<script type="text/javascript">
+                        {setInterval('window.location.reload()', 5000)}
+                </script>} </div>
             
               }
               <Footer/>

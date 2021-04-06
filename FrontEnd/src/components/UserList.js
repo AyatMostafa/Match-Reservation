@@ -2,6 +2,9 @@ import axios from "axios";
 import React from "react";
 import ListGroup from 'react-bootstrap/ListGroup'
 import UserCard from './UserCard'
+import Header from './HeaderComponent';
+import Footer from './FooterComponent';
+import { Redirect } from "react-router-dom";
 
 const serverURL = "http://localhost:5000";
 
@@ -12,9 +15,11 @@ export class UserList extends React.Component {
     this.state = {
         users: []
     };
+    this.token = this.getToken();
     this.fetchUsers = this.fetchUsers.bind(this);
     this.ApproveUser = this.ApproveUser.bind(this);
     this.DeleteUser = this.DeleteUser.bind(this);
+    this.getToken = this.getToken.bind(this);
 
     this.fetchUsers();
   }
@@ -43,18 +48,30 @@ export class UserList extends React.Component {
     });
   };
 
-
+  getToken(){
+    const tokenString = sessionStorage.getItem('token');
+    const userToken = JSON.parse(tokenString);
+    return userToken ? userToken : '';
+  }
   render() {
     return (
-        <ListGroup>
-            {
-            this.state.users.map((user) => (
-                <ListGroup.Item action variant="light" id={user.UserName}>
-                    <UserCard Approved={user.Approved === 'Y'} username={user.UserName} ApproveUser={this.ApproveUser} DeleteUser={this.DeleteUser}/> 
-                </ListGroup.Item>
-            ))
-            }
-        </ListGroup>
+        <div>
+          <Header />
+          {   this.token && this.token.charAt(this.token.length-1) == 'A'? 
+                <ListGroup>
+                  {
+                  this.state.users.map((user) => (
+                      <ListGroup.Item action variant="light" id={user.UserName}>
+                          <UserCard Approved={user.Approved === 'Y'} username={user.UserName} ApproveUser={this.ApproveUser} DeleteUser={this.DeleteUser}/> 
+                      </ListGroup.Item>
+                  ))
+                  }
+                </ListGroup>
+                : <Redirect to="/" />
+          }
+          
+          <Footer />
+        </div>
     );
   }
 }

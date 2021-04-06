@@ -35,6 +35,10 @@ function App() {
         <MatchWithId key={location.key} match={match} />
         )} /> */}
 
+        <Route path="/Users">
+          <UserList />
+        </Route>
+
         <Route path="/matches/createMatch">
           <CreateMatch />
         </Route>

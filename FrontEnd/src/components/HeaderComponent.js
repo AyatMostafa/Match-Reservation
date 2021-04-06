@@ -4,6 +4,7 @@ import { NavLink} from 'react-router-dom';
 
 import Login from './Login'
 import SignUp from './SignUp'
+import Logout from './Logout'
 
 class Header extends Component {
     
@@ -14,6 +15,7 @@ class Header extends Component {
             isNavOpen: false,
             isLoginOpen: false,
             isSignUpOpen: false,
+            LoggedOut: false,
             token: this.getToken()
         };
 
@@ -23,6 +25,7 @@ class Header extends Component {
         this.toggleNav = this.toggleNav.bind(this);
         this.toggleLogin = this.toggleLogin.bind(this);
         this.toggleSignUp = this.toggleSignUp.bind(this);
+        this.toggleSignOut = this.toggleSignOut.bind(this);
     }
     setToken(t){
         this.setState({token: t});
@@ -55,7 +58,12 @@ class Header extends Component {
             isSignUpOpen: !this.state.isSignUpOpen
         });
     }
-    
+    toggleSignOut(){
+        this.destroyToken();
+        this.setState({
+            LoggedOut: true
+        });
+    }
     render() {
         
         return(
@@ -106,7 +114,7 @@ class Header extends Component {
                             <Nav className="ml-4" navbar >
                                 {   this.state.token ? 
                                     <NavItem >
-                                        <Button outline className="btn btn-light" onClick={this.destroyToken}><span className="fa fa-sign-in fa-lg"></span> Logout</Button>
+                                        <Button outline className="btn btn-light" onClick={this.toggleSignOut}><span className="fa fa-sign-in fa-lg"></span> Logout</Button>
                                     </NavItem>
                                     : null  //this null would be updated
                                 }
@@ -138,7 +146,12 @@ class Header extends Component {
                         <SignUp setToken={this.setToken} setShow={this.toggleSignUp} />
                     </ModalBody>
                 </Modal>
-
+                
+                <Modal isOpen={this.state.LoggedOut}>
+                    <ModalBody>
+                        <Logout />
+                    </ModalBody>
+                </Modal>
             </React.Fragment>
         );
     }
