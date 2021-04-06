@@ -219,7 +219,7 @@ class Customer extends Component {
                     <div class="page-header">
                         <div class=" od-pa-title">
                             <div>
-                            Welcome to your account {this.state.Fname}
+                            Welcome to your account
                             </div>
                         </div>
                     </div>
