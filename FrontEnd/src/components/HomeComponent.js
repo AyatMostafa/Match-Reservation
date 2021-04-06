@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import { withRouter } from 'react-router-dom';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Carousel } from "react-bootstrap";
 
 import image1 from "./im1.jpg";
