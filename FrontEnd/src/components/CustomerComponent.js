@@ -73,6 +73,7 @@ class Customer extends Component {
      
       async fetchCustomerInfo(){
         var myUserName='';
+        console.log("tokennnnn",(window.sessionStorage.getItem('token')));
           if(window.sessionStorage.getItem('token')!=null)
               myUserName = window.sessionStorage.getItem('token').split('-')[0].slice(1,);
             axios.get(serverURL + '/CustomerInfo',{
