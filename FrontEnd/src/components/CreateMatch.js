@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Label, FormGroup, Button, Form  } from 'reactstrap';
-// import DateTimePicker from 'react-datetime-picker';
+import DateTimePicker from 'react-datetime-picker';
 import TimePicker from 'react-time-picker';
 import DatePicker from "react-datepicker";
 import Select from "react-select";
@@ -9,7 +9,7 @@ import { withRouter,Redirect } from 'react-router-dom';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 
-// import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-datetime-picker/dist/DateTimePicker.css';
 
 const serverURL = "http://localhost:5000";
 
@@ -20,8 +20,8 @@ class CreateMatch extends Component {
             HomeTeam: '',
             AwayTeam: '',
             Venue: '',
-            MatchDate: '',
-            MatchTime: 0,
+            DateAndTime: '',
+            // MatchTime: 0,
             MainReferee: '',
             LineMan1: '',
             LineMan2: '',
@@ -99,18 +99,12 @@ class CreateMatch extends Component {
         ];
         this.handleSubmitMatch = this.handleSubmitMatch.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        // this.createEvent = this.createEvent(this);
     }
 
     handleChange(event) {
         const { name, value } = event.target;
         this.setState({ [name] : value });
     };
-
-    // async createEvent()
-    // {
-        
-    // }
 
     async handleSubmitMatch(event) {
         event.preventDefault();
@@ -127,15 +121,15 @@ class CreateMatch extends Component {
                 error : '',
             });
 
-            var d = this.state.MatchDate;
-            d.setDate(d.getDate() + 1);
-            // this.setState({MatchDate: d});
+            // var d = this.state.MatchDate;
+            // d.setDate(d.getDate() + 1);
+            // // this.setState({MatchDate: d});
 
-            console.log(this.state.MatchDate, d);
+            // console.log(this.state.MatchDate, d);
 
             axios.post(serverURL + '/CheckCreate',{
-                Date: this.state.MatchDate,
-                Time: this.state.MatchTime,
+                DateAndTime: this.state.DateAndTime,
+                // Time: this.state.MatchTime,
                 Venue: this.state.Venue,
                 Referee: this.state.MainReferee,
                 Lineman1: this.state.LineMan1,
@@ -152,8 +146,8 @@ class CreateMatch extends Component {
                         HomeTeam: this.state.HomeTeam,
                         AwayTeam: this.state.AwayTeam,
                         Venue: this.state.Venue,
-                        MatchDate: this.state.MatchDate.toLocaleString(),
-                        MatchTime: this.state.MatchTime,
+                        MatchDate: this.state.DateAndTime,
+                        // MatchTime: this.state.MatchTime,
                         MainReferee: this.state.MainReferee,
                         LineMan1: this.state.LineMan1,
                         LineMan2: this.state.LineMan2
@@ -207,7 +201,6 @@ class CreateMatch extends Component {
                                 options={this.teams}
                                 value={this.state.HomeTeam}
                                 onChange={(input) => this.setState({HomeTeam: input.value})}
-                                required
                             />
                         </FormGroup>
 
@@ -218,16 +211,15 @@ class CreateMatch extends Component {
                                 options={this.teams}
                                 value={this.state.AwayTeam}
                                 onChange={(input) => this.setState({AwayTeam: input.value})}
-                                required
                             />
                         </FormGroup>
 
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
                             <Label htmlFor="DateAndTime">Date And Time : &nbsp;</Label>
                             <br/>
-                            {/* <DateTimePicker onChange={date => this.setState({DateAndTime: date})} value={this.state.DateAndTime} format="yyyy-MM-dd h:mm:ss"/> */}
-                            <DatePicker selected={this.state.MatchDate} onChange={date => this.setState({MatchDate: date})} minDate={new Date()} required/>
-                            <TimePicker selected={this.state.MatchTime} onChange={time => this.setState({MatchTime: time})} required/>
+                            <DateTimePicker onChange={date => this.setState({DateAndTime: date})} value={this.state.DateAndTime} format="yyyy-MM-dd h:mm:ss a" minDate={new Date()}/>
+                            {/* <DatePicker selected={this.state.MatchDate} onChange={date => this.setState({MatchDate: date})} minDate={new Date()} />
+                            <TimePicker selected={this.state.MatchTime} onChange={time => this.setState({MatchTime: time})} /> */}
 
                         </FormGroup>
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
@@ -237,7 +229,6 @@ class CreateMatch extends Component {
                                 options={this.optionsVenue}
                                 value={this.state.Venue}
                                 onChange={(input) => this.setState({Venue: input.value})}
-                                required
                             />
                         </FormGroup>
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
@@ -247,7 +238,6 @@ class CreateMatch extends Component {
                                 options={this.optionsMainReferee}
                                 value={this.state.MainReferee}
                                 onChange={(input) => this.setState({MainReferee: input.value})}
-                                required
                             />
                         </FormGroup>
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
@@ -257,7 +247,6 @@ class CreateMatch extends Component {
                                 options={this.optionsLineMan}
                                 value={this.state.LineMan1}
                                 onChange={(input) => this.setState({LineMan1: input.value})}
-                                required
                             />
                         </FormGroup>
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
@@ -267,7 +256,6 @@ class CreateMatch extends Component {
                                 options={this.optionsLineMan}
                                 value={this.state.LineMan2}
                                 onChange={(input) => this.setState({LineMan2: input.value})}
-                                required
                             />
                 
                             <span style={{color:'red'}}> {this.state.error}</span>

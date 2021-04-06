@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Label, FormGroup, Button, Form  } from 'reactstrap';
-// import DateTimePicker from 'react-datetime-picker';
+import DateTimePicker from 'react-datetime-picker';
 import TimePicker from 'react-time-picker';
 import DatePicker from "react-datepicker";
 import Select from "react-select";
@@ -19,15 +19,15 @@ class EditMatch extends Component {
             redirectVal: false,
             Home: this.props.matchh.match.HomeTeam,
             Away: this.props.matchh.match.AwayTeam,
-            Date: new Date(this.props.matchh.match.MatchDate),
-            Time: this.props.matchh.match.MatchHour.toString() + ':' + this.props.matchh.match.MatchMin.toString(),
+            Date: new Date(this.props.matchh.match.DateAndTime),
+            // Time: this.props.matchh.match.MatchHour.toString() + ':' + this.props.matchh.match.MatchMin.toString(),
             Ven: this.props.matchh.match.Venue,
             Referee: this.props.matchh.match.MainReferee,
             Line1: this.props.matchh.match.LineMan1,
             Line2: this.props.matchh.match.LineMan2,
             oldVenue: this.props.matchh.match.Venue,
-            oldDate: new Date(this.props.matchh.match.MatchDate),
-            oldTime: this.props.matchh.match.MatchHour.toString() + ':' + this.props.matchh.match.MatchMin.toString()
+            oldDate: new Date(this.props.matchh.match.DateAndTime),
+            // oldTime: this.props.matchh.match.MatchHour.toString() + ':' + this.props.matchh.match.MatchMin.toString()
         };
         this.optionsVenue = [
             { value: 'Alexandria', label: 'Alexandria' },
@@ -100,13 +100,13 @@ class EditMatch extends Component {
         axios.put(serverURL + '/EditMatch',{
                 Venue: this.state.Ven,
                 Date: this.state.Date,
-                Time: this.state.Time,
+                // Time: this.state.Time,
                 MainReferee: this.state.Referee,
                 LineMan1: this.state.Line1,
                 LineMan2: this.state.Line2,
                 idVenue: this.state.oldVenue,
                 idDate: this.state.oldDate,
-                idTime: this.state.oldTime
+                // idTime: this.state.oldTime
             })
             .then(result => {
                 if(result.data === "Success")
@@ -143,7 +143,7 @@ class EditMatch extends Component {
 
             axios.post(serverURL + '/CheckEdit',{
                 Date: this.state.Date,
-                Time: this.state.Time,
+                // Time: this.state.Time,
                 Venue: this.state.Ven,
                 Referee: this.state.Referee,
                 Lineman1: this.state.Line1,
@@ -186,9 +186,9 @@ class EditMatch extends Component {
 
                         <FormGroup style={{fontSize: 18}}>
                             <Label htmlFor="DateAndTime">Date And Time : &nbsp;</Label>
-                            {/* <DateTimePicker onChange={date => this.setState({Date: date})} value={this.state.Date} format="y-MM-dd h:mm:ss a"/> */}
-                            <DatePicker selected={this.state.Date} onChange={date => this.setState({Date: date})} />
-                            <TimePicker value={this.state.Time} onChange={time => this.setState({Time: time})} />
+                            <DateTimePicker onChange={date => this.setState({Date: date})} value={this.state.Date} format="y-MM-dd h:mm:ss a" minDate={new Date()}/>
+                            {/* <DatePicker selected={this.state.Date} onChange={date => this.setState({Date: date})} />
+                            <TimePicker value={this.state.Time} onChange={time => this.setState({Time: time})} /> */}
                         </FormGroup>
 
                         <FormGroup style={{fontSize: 18}}>

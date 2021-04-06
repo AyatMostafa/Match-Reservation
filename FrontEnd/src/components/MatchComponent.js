@@ -102,7 +102,7 @@ class Match extends Component {
                             <dt className="col-6">Venue :</dt>
                             <dd className="col-6"> {match.Venue} </dd>
                             <dt className="col-6"> Date And Time :</dt>
-                            <dd className="col-6">  {match.MatchDate}, {match.MatchHour}: {match.MatchMin} </dd>
+                            <dd className="col-6">  {date} </dd>
                             <dt className="col-6"> Main Referee :</dt>
                             <dd className="col-6"> {match.MainReferee} </dd>
                             <dt className="col-6"> Line Man1 :</dt>
