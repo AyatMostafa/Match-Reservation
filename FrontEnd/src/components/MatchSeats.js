@@ -27,7 +27,7 @@ export class MatchSeats extends React.Component {
     
     }
     componentDidMount(){
-
+      
       setInterval(() => {
           var len = this.state.reserved.length;
           this.fetchReserved();

@@ -1,4 +1,5 @@
 const db = require('../models')
+var io = require('socket.io')
 const { QueryTypes } = require('sequelize');
 
 const FrontEndURL = "http://localhost:3000"
@@ -100,5 +101,5 @@ exports.FetchReservedSeats = async function(req, res){
     );
 
     res.send(results);
-
+  
 }

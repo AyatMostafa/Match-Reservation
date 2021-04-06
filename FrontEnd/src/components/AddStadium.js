@@ -1,5 +1,7 @@
 import React from "react";
 import axios from 'axios';
+import Header from './HeaderComponent';
+import Footer from './FooterComponent';
 import "react-datepicker/dist/react-datepicker.css";
 
 const serverURL = "http://localhost:5000";
@@ -77,6 +79,8 @@ export class Stadium extends React.Component {
 
   render() {
     return (
+      <div>
+      <Header/>
         <div class="pa_menu_body od-pa-menu-body odf-box odf-box-primary" style={{width:1000}}>
             <div class="row">
               <div class="col-6">
@@ -110,7 +114,8 @@ export class Stadium extends React.Component {
             </div>
 
         </div>
-       
+        <Footer/>
+        </div>
         
     );
   }
