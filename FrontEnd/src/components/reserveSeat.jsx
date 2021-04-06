@@ -9,9 +9,9 @@ import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { Modal } from "react-bootstrap";
 
 
-const options = [
+/*const options = [
     'Cairo', 'Borj El Arab stadium', 'Alexandria Stadium'
-  ];
+  ];*/
 
  
 export class ReserveSeat extends Component {
@@ -21,11 +21,26 @@ export class ReserveSeat extends Component {
                 printNum:false,
                 text:"0",
                 showDateList:false,
-                dates:[],      
+                dates:[],
+                options:[],
             }
         this.handleSubmit = this.handleSubmit.bind(this);
+        //this.getVenues();
+        
     }
 
+    getVenues(){
+        console.log("HIIIIIIIIIIIIIIIIIII")
+        axios.get('http://localhost:5000/GetVenuMatches',{
+            })
+            .then(response => {
+                this.setState({options: response.data});
+                console.log(response.data)
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
     async handleSubmit(event){
         console.log(this.state.seatNumber)
         if(window.sessionStorage.getItem('token')==null){
@@ -141,8 +156,11 @@ export class ReserveSeat extends Component {
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
+                                        <script>
+                                            {this.state.options.length==0?this.getVenues():null}
+                                        </script>
                                             <label for="Stadium" class="form-label lbl">Choose the Stadium</label>
-                                            <Dropdown options={options} onChange={this.handlestadiumChange} value='' placeholder="Select an option" className="dropDown dr"/>
+                                            <Dropdown options={this.state.options} onChange={this.handlestadiumChange} value='' placeholder="Select an option" className="dropDown dr"/>
                                         </div>
 
                                         <div class="col-6">

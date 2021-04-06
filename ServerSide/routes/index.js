@@ -18,6 +18,7 @@ router.get('/FetchStadium',customer.FetchStadium);
 router.get('/ReservedSeats',customer.FetchReservedSeats);
 router.get('/GetTimeDate',customerReservation.GetTimeDate);
 router.post('/ReserveSeat',customerReservation.ReserveSeat);
+router.get('/GetVenuMatches',customerReservation.GetVenuMatches);
 router.delete('/cancelReservation',customerReservation.cancelReservation);
 router.post('/matches/CreateMatch', matches.CreateMatch);
 router.post('/matches', matches.showMatches );
