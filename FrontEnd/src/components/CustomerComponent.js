@@ -6,7 +6,7 @@ import Select from "react-select";
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import {withRouter } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 const serverURL = "http://localhost:5000";
 
 
@@ -25,13 +25,14 @@ class Customer extends Component {
             Role: null,
             fields: {},
             errors: {},
-            
+            isManager: false,
             usernameError: '',
             passwordError: '',
             FnameError: '',
             LnameError: '',
     
         };
+        this.token = this.getToken();
         this.options = [
           { value: 'Alexandria', label: 'Alexandria' },
           { value: 'Aswan', label: 'Aswan' },
@@ -69,6 +70,7 @@ class Customer extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.setInputs = this.setInputs.bind(this);
+        this.getToken = this.getToken.bind(this);
       }
      
       async fetchCustomerInfo(){
@@ -97,7 +99,11 @@ class Customer extends Component {
             )
            
       }
-     
+      getToken(){
+        const tokenString = sessionStorage.getItem('token');
+        const userToken = JSON.parse(tokenString);
+        return userToken ? userToken : '';
+      }
       async handleClick(){
         var Gender = null;
         var Role = null;
@@ -169,7 +175,14 @@ class Customer extends Component {
         
         this.setInputs();  
       }
-     
+      componentDidMount()
+      {
+          if(window.sessionStorage.getItem('token') === '' || window.sessionStorage.getItem('token') === null)
+              this.setState({ isManager: false});
+          else if(window.sessionStorage.getItem('token').slice(-2,-1) === "M")
+              this.setState({ isManager: true });
+          
+      }
       setInputs(){
         document.getElementById("FirstName").defaultValue = this.state.Fname;
         document.getElementById("LastName").defaultValue = this.state.Lname;
@@ -206,7 +219,7 @@ class Customer extends Component {
                     <div class="page-header">
                         <div class=" od-pa-title">
                             <div>
-                            Welcome to your account {this.state.Fname}
+                            Welcome to your account
                             </div>
                         </div>
                     </div>
@@ -219,6 +232,14 @@ class Customer extends Component {
                                   <span  id="icon" className="fa fa-edit fa-lg"></span>Edit my info
                                   </div>
                                 </a>
+                                {   this.token && this.token.charAt(this.token.length-1) == 'A'? 
+                                    <a href="/Users">
+                                      <div class="od-pa-menu-item">
+                                      <span  id="icon" className="fa fa-edit fa-lg"></span>Non Approved Users
+                                      </div>
+                                    </a>
+                                    : null
+                                }
                                 <a href="/matches">
                                   <div class="od-pa-menu-item">
                                      <span id="icon" className="fa fa-list fa-lg"></span>View Matches
@@ -234,10 +255,23 @@ class Customer extends Component {
                                     <span id="icon" className="fa fa-close fa-lg"></span>Cancel Reservation
                                  </div>
                                  </a>
+                  
+                                 {
+                                  this.state.isManager ? 
+                                 <a href="/AddStadium">
+                                 <div class="od-pa-menu-item">
+                                    <span id="icon" className="fa fa-plus fa-lg"></span>Add Stadium
+                                 </div>
+                                 </a>
+                                     : null    
+                                    }
                               </div>
+                            
 
                           </div>
+                         
                         </div>
+                      
                         <div class="col-7">
                             <div class="pa_menu_body od-pa-menu-body odf-box odf-box-primary">
                                 <form id="customer-form"> 

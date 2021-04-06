@@ -141,3 +141,23 @@ exports.GetTimeDate=async function(req, res){
         res.send('no')
     }
 };
+
+
+exports.GetVenuMatches=async function(req, res){
+    const results = await db.sequelize.query(
+        "select DISTINCT Venue from matches",
+        {
+            type: QueryTypes.SELECT
+        });
+
+    if(typeof results !== 'undefined' && results)   // exists
+    {
+        sentData=[]
+        for (var i=0;i<results.length;++i) {
+             sentData.push(results[i].Venue);
+        }
+        res.send(sentData)
+    }else{
+        res.send('no')
+    }
+};

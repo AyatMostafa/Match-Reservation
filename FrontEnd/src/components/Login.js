@@ -42,7 +42,8 @@ export class Login extends React.Component {
       {
         this.props.setShow();
         this.props.setToken(this.state.username + '-' + response.data.charAt(response.data.length-1));
-        return <ReserveSeat data={this.state}></ReserveSeat>
+        window.location.reload(false);
+        // return <ReserveSeat data={this.state}></ReserveSeat>
       }
       else
       {
