@@ -44,11 +44,13 @@ Create Table matches(
     HomeTeam varchar(50) not NULL,
     AwayTeam varchar(50) not NULL,
     Venue varchar (20) not NULL,
-    DateAndTime DateTime not NULL,
+    MatchDate Date not NULL,
+    MatchHour int not NULL,
+    MatchMin int not NULL,
     MainReferee varchar(50) not NULL,
     LineMan1 varchar(50) not NULL,
     LineMan2 varchar(50) not NULL,
-    Primary Key(Venue, DateAndTime)
+    Primary Key(Venue, MatchDate, MatchHour, MatchMin)
 );
 
 Create Table Stadiums(

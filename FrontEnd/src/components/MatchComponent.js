@@ -86,9 +86,6 @@ class Match extends Component {
         this.showMatches();
     }
     
-    // componentDidUpdate(){
-    //     if(this.getToken() === ''this.getToken() === null )
-    // }
     render() {
         const MatchDetails = ({match, num, is_Manager}) => 
         {
@@ -105,7 +102,7 @@ class Match extends Component {
                             <dt className="col-6">Venue :</dt>
                             <dd className="col-6"> {match.Venue} </dd>
                             <dt className="col-6"> Date And Time :</dt>
-                            <dd className="col-6">  {date} </dd>
+                            <dd className="col-6">  {match.MatchDate}, {match.MatchHour}: {match.MatchMin} </dd>
                             <dt className="col-6"> Main Referee :</dt>
                             <dd className="col-6"> {match.MainReferee} </dd>
                             <dt className="col-6"> Line Man1 :</dt>
@@ -114,9 +111,7 @@ class Match extends Component {
                             <dd className="col-6"> {match.LineMan2} </dd>
                         </dl>
                         {   is_Manager ?
-                            // <Link to={`/matches/EditMatch/${{'Venue': match.Venue, 'Date': match.DateAndTime}}`}> 
                                 <Button className="bg-dark" onClick={() => { console.log({match}); this.showAll({match}) }} ><span className="fa fa-edit fa-m"></span> Edit Event</Button>
-                            // </Link>
                             : <div></div>
                         }
                         
@@ -124,7 +119,6 @@ class Match extends Component {
                             <Button className="bg-dark" style={{float:'right'}}>View seats</Button>
                         </Link>
                             
-                        
                     </CardBody>
                 </Card>
             );
@@ -162,9 +156,6 @@ class Match extends Component {
                 <Modal isOpen={this.state.isEditOpen} toggle={this.toggleEdit}>
                     <ModalHeader toggle={this.toggleEdit}> Edit Match Event </ModalHeader>
                     <ModalBody>
-                        {/* {
-                            console.log(this.state.ClickedMatch)
-                        } */}
                         <EditMatch matchh={this.state.ClickedMatch} completeEdit={this.completeEdit}/>
                     </ModalBody>
                 </Modal>

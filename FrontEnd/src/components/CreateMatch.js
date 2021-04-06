@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Label, FormGroup, Button, Form  } from 'reactstrap';
+// import DateTimePicker from 'react-datetime-picker';
+import TimePicker from 'react-time-picker';
 import DatePicker from "react-datepicker";
-import DateTimePicker from 'react-datetime-picker';
 import Select from "react-select";
 import { withRouter,Redirect } from 'react-router-dom';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
+
+// import 'react-datetime-picker/dist/DateTimePicker.css';
 
 const serverURL = "http://localhost:5000";
 
@@ -17,11 +20,12 @@ class CreateMatch extends Component {
             HomeTeam: '',
             AwayTeam: '',
             Venue: '',
-            DateAndTime: Date.parse(""),
+            MatchDate: '',
+            MatchTime: 0,
             MainReferee: '',
             LineMan1: '',
             LineMan2: '',
-            error: false,
+            error: "",
             done: false,
             redirectVal: false
         };
@@ -95,6 +99,7 @@ class CreateMatch extends Component {
         ];
         this.handleSubmitMatch = this.handleSubmitMatch.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        // this.createEvent = this.createEvent(this);
     }
 
     handleChange(event) {
@@ -102,52 +107,87 @@ class CreateMatch extends Component {
         this.setState({ [name] : value });
     };
 
+    // async createEvent()
+    // {
+        
+    // }
+
     async handleSubmitMatch(event) {
         event.preventDefault();
         if(this.state.LineMan1 === this.state.LineMan2)
         {
-            this.setState({
-                error : true
-            });
+            this.setState({ error : "please, select two different line mans" });
+        }
+        else if(this.state.HomeTeam === this.state.AwayTeam)
+        {
+            this.setState({error : "please, select two different Teams" })
         }
         else{
             this.setState({
-                error : false
+                error : '',
             });
-            console.log("handleSubmit");
 
-            axios.post(serverURL + '/matches/CreateMatch',{
-                HomeTeam: this.state.HomeTeam,
-                AwayTeam: this.state.AwayTeam,
+            var d = this.state.MatchDate;
+            d.setDate(d.getDate() + 1);
+            // this.setState({MatchDate: d});
+
+            console.log(this.state.MatchDate, d);
+
+            axios.post(serverURL + '/CheckCreate',{
+                Date: this.state.MatchDate,
+                Time: this.state.MatchTime,
                 Venue: this.state.Venue,
-                DateAndTime: this.state.DateAndTime,
-                MainReferee: this.state.MainReferee,
-                LineMan1: this.state.LineMan1,
-                LineMan2: this.state.LineMan2
-            }).then(result => {
-                if(result.data === "Success")
+                Referee: this.state.MainReferee,
+                Lineman1: this.state.LineMan1,
+                Lineman2: this.state.LineMan2,
+                HomeTeam: this.state.HomeTeam,
+                AwayTeam: this.state.AwayTeam
+            })
+            .then(result => {
+                console.log(result.data.length);
+                console.log(result.data);
+                if(result.data.length <= 1)
                 {
-                    console.log("Success");
-                    this.setState({
-                        done : true
-                    }); 
-
-                    setTimeout( function() {
-                        this.setState({
-                            redirectVal : true
-                        }); 
-                    }.bind(this), 3000)
-
-                    // setTimeout({
-                    //     render(){
-                    //         return <Redirect to={"/matches"} />
-                    //     }
-                    // }, 2000)
+                    axios.post(serverURL + '/matches/CreateMatch',{
+                        HomeTeam: this.state.HomeTeam,
+                        AwayTeam: this.state.AwayTeam,
+                        Venue: this.state.Venue,
+                        MatchDate: this.state.MatchDate.toLocaleString(),
+                        MatchTime: this.state.MatchTime,
+                        MainReferee: this.state.MainReferee,
+                        LineMan1: this.state.LineMan1,
+                        LineMan2: this.state.LineMan2
+                    }).then(result => {
+                        if(result.data === "Success")
+                        {
+                            console.log("Success");
+                            this.setState({
+                                done : true
+                            }); 
+            
+                            setTimeout( function() {
+                                this.setState({
+                                    redirectVal : true
+                                }); 
+                            }.bind(this), 3000)
+                        }
+                        else
+                        {
+                            this.setState({error: "failed to create Match"})
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+                }
+                else{
+                    this.setState({ error: "Home Team, Away Team, Main Referee, LineMan1, LineMan2, or Venue is busy at this time, please select another one"});
                 }
             })
             .catch(function(error) {
                 console.log(error);
             });
+
         }
     }
     
@@ -167,6 +207,7 @@ class CreateMatch extends Component {
                                 options={this.teams}
                                 value={this.state.HomeTeam}
                                 onChange={(input) => this.setState({HomeTeam: input.value})}
+                                required
                             />
                         </FormGroup>
 
@@ -177,13 +218,17 @@ class CreateMatch extends Component {
                                 options={this.teams}
                                 value={this.state.AwayTeam}
                                 onChange={(input) => this.setState({AwayTeam: input.value})}
+                                required
                             />
                         </FormGroup>
 
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
                             <Label htmlFor="DateAndTime">Date And Time : &nbsp;</Label>
                             <br/>
-                            <DateTimePicker onChange={date => this.setState({DateAndTime: date})} value={this.state.DateAndTime}/>
+                            {/* <DateTimePicker onChange={date => this.setState({DateAndTime: date})} value={this.state.DateAndTime} format="yyyy-MM-dd h:mm:ss"/> */}
+                            <DatePicker selected={this.state.MatchDate} onChange={date => this.setState({MatchDate: date})} minDate={new Date()} required/>
+                            <TimePicker selected={this.state.MatchTime} onChange={time => this.setState({MatchTime: time})} required/>
+
                         </FormGroup>
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
                             <Label htmlFor="Venue" >Venue :</Label>
@@ -192,6 +237,7 @@ class CreateMatch extends Component {
                                 options={this.optionsVenue}
                                 value={this.state.Venue}
                                 onChange={(input) => this.setState({Venue: input.value})}
+                                required
                             />
                         </FormGroup>
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
@@ -201,6 +247,7 @@ class CreateMatch extends Component {
                                 options={this.optionsMainReferee}
                                 value={this.state.MainReferee}
                                 onChange={(input) => this.setState({MainReferee: input.value})}
+                                required
                             />
                         </FormGroup>
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
@@ -210,6 +257,7 @@ class CreateMatch extends Component {
                                 options={this.optionsLineMan}
                                 value={this.state.LineMan1}
                                 onChange={(input) => this.setState({LineMan1: input.value})}
+                                required
                             />
                         </FormGroup>
                         <FormGroup style={{fontSize: 18, fontWeight: 'bold'}}>
@@ -219,16 +267,14 @@ class CreateMatch extends Component {
                                 options={this.optionsLineMan}
                                 value={this.state.LineMan2}
                                 onChange={(input) => this.setState({LineMan2: input.value})}
+                                required
                             />
-                            {
-                                this.state.error ? 
-                                <span style={{color:'red'}}> please, select two different line mans</span>:
-                                null
-                            }
+                
+                            <span style={{color:'red'}}> {this.state.error}</span>
                         </FormGroup>
                         {
                             this.state.done ? 
-                                <div style={{color:'green', fontSize:17, textAlign:'center', fontStyle:'oblique'}}> Match Event is Created</div>                            :
+                                <div style={{color:'green', fontSize:17, textAlign:'center', fontStyle:'oblique'}}> Match Event is Created</div> :
                             null
                         }
                         {

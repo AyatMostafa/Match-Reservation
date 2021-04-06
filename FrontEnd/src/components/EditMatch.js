@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Label, FormGroup, Button, Form  } from 'reactstrap';
+// import DateTimePicker from 'react-datetime-picker';
+import TimePicker from 'react-time-picker';
 import DatePicker from "react-datepicker";
 import Select from "react-select";
 import {withRouter} from 'react-router-dom';
+import 'react-datetime-picker/dist/DateTimePicker.css';
 
 const serverURL = "http://localhost:5000";
 
@@ -11,19 +14,20 @@ class EditMatch extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            error: false,
-            error2: false,
+            error: "",
             done: false,
             redirectVal: false,
             Home: this.props.matchh.match.HomeTeam,
             Away: this.props.matchh.match.AwayTeam,
-            Date: new Date(this.props.matchh.match.DateAndTime),
+            Date: new Date(this.props.matchh.match.MatchDate),
+            Time: this.props.matchh.match.MatchHour.toString() + ':' + this.props.matchh.match.MatchMin.toString(),
             Ven: this.props.matchh.match.Venue,
             Referee: this.props.matchh.match.MainReferee,
             Line1: this.props.matchh.match.LineMan1,
             Line2: this.props.matchh.match.LineMan2,
             oldVenue: this.props.matchh.match.Venue,
-            oldDate: new Date(this.props.matchh.match.DateAndTime)
+            oldDate: new Date(this.props.matchh.match.MatchDate),
+            oldTime: this.props.matchh.match.MatchHour.toString() + ':' + this.props.matchh.match.MatchMin.toString()
         };
         this.optionsVenue = [
             { value: 'Alexandria', label: 'Alexandria' },
@@ -76,33 +80,33 @@ class EditMatch extends Component {
         ];
         this.handleSubmitMatch = this.handleSubmitMatch.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.editMatch = this.editMatch.bind(this);
     }
+
+    // componentDidMount(){
+    //     console.log(typeof(this.state.Date));
+    //     console.log(typeof(this.state.Time));
+    //     // var calcdate = new Date(this.props.matchh.match.DateAndTime);
+    //     // calcdate.setHours(calcdate.getHours() - 2);
+    //     // this.setState({Date : calcdate});
+    // }
 
     handleChange(event) {
         const { name, value } = event.target;
         this.setState({ [name] : value });
     };
 
-    async handleSubmitMatch(event) {
-        event.preventDefault();
-        if(this.state.Line1 === this.state.Line2)
-        {
-            this.setState({
-                error : true
-            });
-        }
-        else
-        {
-            this.setState({ error : false });
-
-            axios.put(serverURL + '/EditMatch',{
+    async editMatch(){
+        axios.put(serverURL + '/EditMatch',{
                 Venue: this.state.Ven,
-                DateAndTime: this.state.Date,
+                Date: this.state.Date,
+                Time: this.state.Time,
                 MainReferee: this.state.Referee,
                 LineMan1: this.state.Line1,
                 LineMan2: this.state.Line2,
                 idVenue: this.state.oldVenue,
-                idDate: this.state.oldDate
+                idDate: this.state.oldDate,
+                idTime: this.state.oldTime
             })
             .then(result => {
                 if(result.data === "Success")
@@ -111,11 +115,49 @@ class EditMatch extends Component {
                     setTimeout( function() {
                         this.props.completeEdit();
                     }.bind(this), 3000)
-                    
                 }
                 else if(result.data === "Failed")
                 {
-                    this.setState({error2: true});
+                    this.setState({error: "Failed to update Match Event"});
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+
+    async handleSubmitMatch(event) {
+        event.preventDefault();
+        if(this.state.Line1 === this.state.Line2)
+        {
+            this.setState({
+                error : "please, select two different line mans"
+            });
+        }
+        else
+        {
+            this.setState({ error : "" });
+            // var calcdate = this.state.Date;
+            // calcdate.setHours(calcdate.getHours() + 2);
+            // this.setState({Date : new Date(calcdate)});
+
+            axios.post(serverURL + '/CheckEdit',{
+                Date: this.state.Date,
+                Time: this.state.Time,
+                Venue: this.state.Ven,
+                Referee: this.state.Referee,
+                Lineman1: this.state.Line1,
+                Lineman2: this.state.Line2
+            })
+            .then(result => {
+                console.log(result.data.length);
+                console.log(result.data);
+                if(result.data.length <= 1)
+                {
+                    this.editMatch();
+                }
+                else{
+                    this.setState({ error: "Main Referee, LineMan1, LineMan2, or Venue is busy at this time, please select another one"});
                 }
             })
             .catch(function(error) {
@@ -144,7 +186,9 @@ class EditMatch extends Component {
 
                         <FormGroup style={{fontSize: 18}}>
                             <Label htmlFor="DateAndTime">Date And Time : &nbsp;</Label>
-                            <DatePicker selected={this.state.Date} onChange={date => this.setState({Date: date})}/>
+                            {/* <DateTimePicker onChange={date => this.setState({Date: date})} value={this.state.Date} format="y-MM-dd h:mm:ss a"/> */}
+                            <DatePicker selected={this.state.Date} onChange={date => this.setState({Date: date})} />
+                            <TimePicker value={this.state.Time} onChange={time => this.setState({Time: time})} />
                         </FormGroup>
 
                         <FormGroup style={{fontSize: 18}}>
@@ -181,21 +225,14 @@ class EditMatch extends Component {
                                 options={this.optionsLineMan}
                                 value={this.state.Line2}
                                 onChange={(input) => this.setState({Line2: input.value})}
-                            />
-                            {
-                                this.state.error ? 
-                                <span style={{color:'red'}}> please, select two different line mans</span>:
-                                null
-                            }
+                            /> 
+                            
+                            <span style={{color:'red'}}> {this.state.error} </span>
+                        
                         </FormGroup>
                         {
                             this.state.done ? 
                                 <div style={{color:'green', fontSize:17, textAlign:'center'}}> Match Event is updated</div>                            :
-                            null
-                        }
-                        {
-                            this.state.error2 ? 
-                            <span style={{color:'red'}}> Failed to update Match Event</span>:
                             null
                         }
                         <Button style={{width:'20%'}} type="submit" value="submit" color="primary">Edit</Button>

@@ -22,5 +22,7 @@ router.delete('/cancelReservation',customerReservation.cancelReservation);
 router.post('/matches/CreateMatch', matches.CreateMatch);
 router.post('/matches', matches.showMatches );
 router.put('/EditMatch', matches.EditMatch);
+router.post('/CheckEdit', matches.CheckEdit);
+router.post('/CheckCreate', matches.CheckCreate);
 
 module.exports = router;
