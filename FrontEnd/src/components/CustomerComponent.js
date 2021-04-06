@@ -32,6 +32,7 @@ class Customer extends Component {
             LnameError: '',
     
         };
+        this.token = this.getToken();
         this.options = [
           { value: 'Alexandria', label: 'Alexandria' },
           { value: 'Aswan', label: 'Aswan' },
@@ -69,10 +70,12 @@ class Customer extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.setInputs = this.setInputs.bind(this);
+        this.getToken = this.getToken.bind(this);
       }
      
       async fetchCustomerInfo(){
         var myUserName='';
+        console.log("tokennnnn",(window.sessionStorage.getItem('token')));
           if(window.sessionStorage.getItem('token')!=null)
               myUserName = window.sessionStorage.getItem('token').split('-')[0].slice(1,);
             axios.get(serverURL + '/CustomerInfo',{
@@ -97,7 +100,11 @@ class Customer extends Component {
             )
            
       }
-     
+      getToken(){
+        const tokenString = sessionStorage.getItem('token');
+        const userToken = JSON.parse(tokenString);
+        return userToken ? userToken : '';
+      }
       async handleClick(){
         var Gender = null;
         var Role = null;
@@ -219,6 +226,14 @@ class Customer extends Component {
                                   <span  id="icon" className="fa fa-edit fa-lg"></span>Edit my info
                                   </div>
                                 </a>
+                                {   this.token && this.token.charAt(this.token.length-1) == 'A'? 
+                                    <a href="/Users">
+                                      <div class="od-pa-menu-item">
+                                      <span  id="icon" className="fa fa-edit fa-lg"></span>Non Approved Users
+                                      </div>
+                                    </a>
+                                    : null
+                                }
                                 <a href="/matches">
                                   <div class="od-pa-menu-item">
                                      <span id="icon" className="fa fa-list fa-lg"></span>View Matches

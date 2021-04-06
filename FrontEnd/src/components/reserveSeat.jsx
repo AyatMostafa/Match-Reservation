@@ -27,23 +27,31 @@ export class ReserveSeat extends Component {
     }
 
     async handleSubmit(event){
-        console.log(this.state.seatNumber)        
-        axios.post('http://localhost:5000/ReserveSeat',{
-            seatNo: this.state.seatNumber,
-            stadiumName: this.state.stadiumName,
-            creditCard: this.state.CreditCard,
-            matchDate:this.state.matchDate,
-            usr: window.sessionStorage.getItem('token').split('-')[0].slice(1,)
-        })
-        .then(response => {
-            this.setState({text: response.data},()=>{
-                    this.setState({printNum:true});
+        console.log(this.state.seatNumber)
+        if(window.sessionStorage.getItem('token')==null){
+            this.setState({text:"Please, login first"},()=>{
+                this.setState({printNum:true});
             });
-            console.log(response.data)
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
+        }
+        else{
+            //console.log(window.sessionStorage.getItem('token'))    
+            axios.post('http://localhost:5000/ReserveSeat',{
+                seatNo: this.state.seatNumber,
+                stadiumName: this.state.stadiumName,
+                creditCard: this.state.CreditCard,
+                matchDate:this.state.matchDate,
+                usr: window.sessionStorage.getItem('token').split('-')[0].slice(1,)
+            })
+            .then(response => {
+                this.setState({text: response.data},()=>{
+                        this.setState({printNum:true});
+                });
+                console.log(response.data)
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        }
     }
 
      async handleDateRequest(event){
