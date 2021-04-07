@@ -142,11 +142,14 @@ class CreateMatch extends Component {
                 console.log(result.data);
                 if(result.data.length <= 1)
                 {
+                    var dt = this.state.DateAndTime;
+                    dt.setHours( dt.getHours() - 2 );
+                    console.log(dt, typeof(dt));
                     axios.post(serverURL + '/matches/CreateMatch',{
                         HomeTeam: this.state.HomeTeam,
                         AwayTeam: this.state.AwayTeam,
                         Venue: this.state.Venue,
-                        MatchDate: this.state.DateAndTime,
+                        MatchDate: dt,
                         // MatchTime: this.state.MatchTime,
                         MainReferee: this.state.MainReferee,
                         LineMan1: this.state.LineMan1,

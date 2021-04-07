@@ -19,7 +19,7 @@ class EditMatch extends Component {
             redirectVal: false,
             Home: this.props.matchh.match.HomeTeam,
             Away: this.props.matchh.match.AwayTeam,
-            Date: new Date(this.props.matchh.match.DateAndTime),
+            Date: "",
             // Time: this.props.matchh.match.MatchHour.toString() + ':' + this.props.matchh.match.MatchMin.toString(),
             Ven: this.props.matchh.match.Venue,
             Referee: this.props.matchh.match.MainReferee,
@@ -83,13 +83,11 @@ class EditMatch extends Component {
         this.editMatch = this.editMatch.bind(this);
     }
 
-    // componentDidMount(){
-    //     console.log(typeof(this.state.Date));
-    //     console.log(typeof(this.state.Time));
-    //     // var calcdate = new Date(this.props.matchh.match.DateAndTime);
-    //     // calcdate.setHours(calcdate.getHours() - 2);
-    //     // this.setState({Date : calcdate});
-    // }
+    componentDidMount(){
+        var calcdate = new Date(this.props.matchh.match.DateAndTime);
+        calcdate.setHours(calcdate.getHours() - 2);
+        this.setState({Date : calcdate});
+    }
 
     handleChange(event) {
         const { name, value } = event.target;
@@ -137,9 +135,9 @@ class EditMatch extends Component {
         else
         {
             this.setState({ error : "" });
-            // var calcdate = this.state.Date;
-            // calcdate.setHours(calcdate.getHours() + 2);
-            // this.setState({Date : new Date(calcdate)});
+            var calcdate = this.state.Date;
+            calcdate.setHours(calcdate.getHours() + 2);
+            this.setState({Date : new Date(calcdate)});
 
             axios.post(serverURL + '/CheckEdit',{
                 Date: this.state.Date,
