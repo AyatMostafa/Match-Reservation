@@ -121,14 +121,14 @@ class CreateMatch extends Component {
                 error : '',
             });
 
-            // var d = this.state.MatchDate;
-            // d.setDate(d.getDate() + 1);
-            // // this.setState({MatchDate: d});
+            var dt = this.state.DateAndTime;
+            dt.setHours( dt.getHours() + 2 );
+            console.log(dt, typeof(dt));
 
             // console.log(this.state.MatchDate, d);
 
             axios.post(serverURL + '/CheckCreate',{
-                DateAndTime: this.state.DateAndTime,
+                DateAndTime: dt,
                 // Time: this.state.MatchTime,
                 Venue: this.state.Venue,
                 Referee: this.state.MainReferee,

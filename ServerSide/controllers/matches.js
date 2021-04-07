@@ -69,7 +69,9 @@ exports.CheckEdit = async function(req, res){
 
 exports.CheckCreate = async function(req, res){
     const Data = req.body;
-    console.log(Data.Date, typeof(Data.Date));
+    // var dt = Data.DateAndTime;
+    // dt.setHours( dt.getHours() + 2 );
+    // console.log(dt, typeof(dt));
     const [results, metadata] = await db.sequelize.query(
         "select * from matches where DateAndTime = '" + Data.DateAndTime + "'  and (Venue = '" + Data.Venue + "' or MainReferee = '" + Data.Referee +"' or LineMan1 = '"+ Data.Lineman1+ "' or LineMan2 = '"+ Data.Lineman2 + "' or LineMan1 = '"+ Data.Lineman2+ "' or LineMan2 = '"+ Data.Lineman1 + "' or HomeTeam = '"+ Data.HomeTeam+ "' or AwayTeam = '"+ Data.AwayTeam + "' or HomeTeam = '"+ Data.AwayTeam + "' or AwayTeam = '"+ Data.HomeTeam + "');" 
     );
