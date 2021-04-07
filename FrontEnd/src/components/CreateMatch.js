@@ -116,6 +116,10 @@ class CreateMatch extends Component {
         {
             this.setState({error : "please, select two different Teams" })
         }
+        else if(!this.state.HomeTeam || !this.state.AwayTeam || !this.state.DateAndTime || !this.state.Venue || !this.state.MainReferee || !this.state.LineMan1 || !this.state.LineMan2)
+        {
+            this.setState({error: "please, Fill all the inputs"});
+        }
         else{
             this.setState({
                 error : '',
